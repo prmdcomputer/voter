@@ -58,9 +58,9 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
     
     try {
       // Simulating network delay to mimic real API behavior
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Mock data based on the provided ECI API preview for UAF3824331
+      // Mock data based on the EXACT provided ECI API structure
       if (formData.epicNo.toUpperCase() === 'UAF3824331') {
         const mockResponse = {
           applicantFirstName: "POOJA",
@@ -69,7 +69,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           relationName: "VINOD",
           relationLName: "KUMAR",
           relativeFullNameL1: "विनोद कुमार",
-          relationType: "FTHR", // According to provided payload
+          relationType: "FTHR",
           age: 26,
           gender: "F",
           districtValue: "Bahraich",
@@ -92,7 +92,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           'OTHR': 'Other'
         };
 
-        // Complete mapping of API fields to form state
+        // Precise mapping of API fields to form state
         setFormData((prev: any) => ({
           ...prev,
           name: `${mockResponse.applicantFirstName} ${mockResponse.applicantLastName}`.toUpperCase(),
@@ -108,6 +108,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           assemblyConstituencyLocal: `${mockResponse.acNumber}- ${mockResponse.asmblyNameL1}`,
           partNo: mockResponse.partNumber,
           partName: mockResponse.psbuildingName.toUpperCase(),
+          // Construct address from available parts
           address: `${mockResponse.partName}, ${mockResponse.districtValue}, ${mockResponse.stateName}`.toUpperCase(),
           addressLocal: `${mockResponse.partNameL1}, ${mockResponse.districtValueL1}, ${mockResponse.stateNameL1}`
         }));
@@ -118,15 +119,15 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         });
       } else {
         toast({
-          title: "Prototype Simulation",
-          description: "In this prototype, use EPIC 'UAF3824331' to see the auto-fill mapping feature.",
+          title: "No Records Found",
+          description: "In this simulation, use EPIC 'UAF3824331' to fetch sample data.",
           variant: "destructive"
         });
       }
     } catch (error) {
       toast({
         title: "Fetch Error",
-        description: "An error occurred while connecting to the mock election database.",
+        description: "An error occurred while connecting to the election database.",
         variant: "destructive"
       });
     } finally {
@@ -192,7 +193,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           <div className="space-y-2">
             <Label htmlFor="epicNo" className="flex items-center gap-2">
               Epic Number 
-              <span className="text-[10px] text-muted-foreground">(Try UAF3824331)</span>
+              <span className="text-[10px] text-muted-foreground font-normal">(Use UAF3824331 for demo)</span>
             </Label>
             <div className="flex gap-2">
               <Input 
@@ -210,7 +211,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
                 className="shrink-0 gap-2"
               >
                 {isFetching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
-                {isFetching ? "Fetching..." : "Fetch"}
+                {isFetching ? "..." : "Fetch"}
               </Button>
             </div>
           </div>
@@ -297,7 +298,18 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="lang1">Target Language</Label>
-            <Select onValueChange={handleLanguageChange} defaultValue="HI">
+            <Select onValueChange={handleLanguageChange} value={Object.entries({
+              'Hindi': 'HI',
+              'Punjabi': 'PA',
+              'Gujarati': 'GU',
+              'Marathi': 'MR',
+              'Tamil': 'TA',
+              'Kannada': 'KN',
+              'Bengali': 'BN',
+              'Telugu': 'TE',
+              'Sindhi': 'SD',
+              'Oriya': 'OR'
+            }).find(([k]) => k === formData.targetLanguage)?.[1] || 'HI'}>
               <SelectTrigger id="lang1">
                 <SelectValue placeholder="Select Language" />
               </SelectTrigger>
