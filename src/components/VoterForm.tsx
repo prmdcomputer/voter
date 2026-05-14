@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { ImageUpload } from '@/components/ImageUpload';
 import { Separator } from '@/components/ui/separator';
 import { translateVoterDetailsToLocalLanguage } from '@/ai/flows/translate-voter-details-to-local-language';
-import { Languages, Wand2, Loader2, Info, Search, RefreshCcw } from 'lucide-react';
+import { Languages, Wand2, Loader2, Info, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface VoterFormProps {
@@ -56,15 +56,11 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
     setIsFetching(true);
     
-    // In a real implementation, this would call the ECI API through a proxy 
-    // to handle encryption and CORS. For this prototype, we simulate the fetch 
-    // and map the provided data structure if the EPIC matches your sample.
-    
     try {
-      // Simulating network delay
+      // Simulating network delay to mimic real API behavior
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      // Mock data based on the provided sample for UAF3824331
+      // Mock data based on the provided ECI API preview for UAF3824331
       if (formData.epicNo.toUpperCase() === 'UAF3824331') {
         const mockResponse = {
           applicantFirstName: "POOJA",
@@ -73,7 +69,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           relationName: "VINOD",
           relationLName: "KUMAR",
           relativeFullNameL1: "विनोद कुमार",
-          relationType: "HUSB", // Corrected from FTHR to HUSB based on your sample logic
+          relationType: "FTHR", // According to provided payload
           age: 26,
           gender: "F",
           districtValue: "Bahraich",
@@ -84,23 +80,26 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           asmblyNameL1: "बहराइच",
           acNumber: "286",
           partNumber: "372",
-          partName: "PRIMARY SCHOOL HARAIYYA",
-          partNameL1: "प्राथमिक विद्यालय हरैय्या"
+          partName: "PRIMARY SCHOOL HARAIYYA (R.N.-1)",
+          partNameL1: "प्राथमिक विद्यालय हरैय्या (क॰न॰-१)",
+          psbuildingName: "PRIMARY SCHOOL HARAIYYA"
         };
 
         const relationMap: Record<string, string> = {
           'FTHR': 'Father',
           'HUSB': 'Husband',
-          'MTHR': 'Mother'
+          'MTHR': 'Mother',
+          'OTHR': 'Other'
         };
 
+        // Complete mapping of API fields to form state
         setFormData((prev: any) => ({
           ...prev,
           name: `${mockResponse.applicantFirstName} ${mockResponse.applicantLastName}`.toUpperCase(),
           nameLocal: mockResponse.fullNameL1,
           fatherHusbandName: `${mockResponse.relationName} ${mockResponse.relationLName}`.toUpperCase(),
           fatherHusbandNameLocal: mockResponse.relativeFullNameL1,
-          relation: relationMap[mockResponse.relationType] || 'Husband',
+          relation: relationMap[mockResponse.relationType] || 'Father',
           age: mockResponse.age.toString(),
           gender: mockResponse.gender === 'F' ? 'Female' : 'Male',
           district: mockResponse.districtValue.toUpperCase(),
@@ -108,26 +107,26 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           assemblyConstituency: `${mockResponse.acNumber}- ${mockResponse.asmblyName}`.toUpperCase(),
           assemblyConstituencyLocal: `${mockResponse.acNumber}- ${mockResponse.asmblyNameL1}`,
           partNo: mockResponse.partNumber,
-          partName: mockResponse.partName.split(' ')[2], // Simplified for form field
-          address: `${mockResponse.partName} ${mockResponse.districtValue} ${mockResponse.stateName}`.toUpperCase(),
-          addressLocal: `${mockResponse.partNameL1} ${mockResponse.districtValueL1} ${mockResponse.stateNameL1}`
+          partName: mockResponse.psbuildingName.toUpperCase(),
+          address: `${mockResponse.partName}, ${mockResponse.districtValue}, ${mockResponse.stateName}`.toUpperCase(),
+          addressLocal: `${mockResponse.partNameL1}, ${mockResponse.districtValueL1}, ${mockResponse.stateNameL1}`
         }));
 
         toast({
-          title: "Voter Data Found",
-          description: "Details for EPIC " + formData.epicNo + " have been populated.",
+          title: "Voter Data Populated",
+          description: `Details for EPIC ${formData.epicNo} were fetched and mapped successfully.`,
         });
       } else {
         toast({
-          title: "No Records Found",
-          description: "Could not find voter details for the entered EPIC number in this prototype mock.",
+          title: "Prototype Simulation",
+          description: "In this prototype, use EPIC 'UAF3824331' to see the auto-fill mapping feature.",
           variant: "destructive"
         });
       }
     } catch (error) {
       toast({
         title: "Fetch Error",
-        description: "An error occurred while connecting to the election database.",
+        description: "An error occurred while connecting to the mock election database.",
         variant: "destructive"
       });
     } finally {
@@ -139,7 +138,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
     if (!formData.name || !formData.fatherHusbandName || !formData.address) {
       toast({
         title: "Incomplete Details",
-        description: "Please fill Name, Father/Husband Name, and Address before translating.",
+        description: "Please fill Name, Relative Name, and Address before translating.",
         variant: "destructive"
       });
       return;
@@ -163,12 +162,12 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
       
       toast({
         title: "Translation Complete",
-        description: `Successfully translated details into ${formData.targetLanguage}.`,
+        description: `AI successfully translated details into ${formData.targetLanguage}.`,
       });
     } catch (error) {
       toast({
         title: "Translation Error",
-        description: "Failed to translate details. Please try again.",
+        description: "Failed to translate details. Please check your network connection.",
         variant: "destructive"
       });
     } finally {
@@ -191,7 +190,10 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="epicNo">Epic Number</Label>
+            <Label htmlFor="epicNo" className="flex items-center gap-2">
+              Epic Number 
+              <span className="text-[10px] text-muted-foreground">(Try UAF3824331)</span>
+            </Label>
             <div className="flex gap-2">
               <Input 
                 id="epicNo" 
@@ -239,11 +241,11 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="name">Full Name (English)</Label>
-          <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" />
+          <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="JOHN DOE" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="nameLocal">Name (Regional Script)</Label>
-          <Input id="nameLocal" name="nameLocal" value={formData.nameLocal} onChange={handleChange} />
+          <Input id="nameLocal" name="nameLocal" value={formData.nameLocal} onChange={handleChange} placeholder="क्षेत्रीय लिपि में नाम" />
         </div>
       </div>
 
@@ -258,6 +260,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
               <SelectItem value="Father">Father</SelectItem>
               <SelectItem value="Husband">Husband</SelectItem>
               <SelectItem value="Mother">Mother</SelectItem>
+              <SelectItem value="Other">Other</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -277,7 +280,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Languages className="w-5 h-5 text-primary" />
-            <h3 className="font-semibold text-sm">Regional Translation Tool</h3>
+            <h3 className="font-semibold text-sm">AI Translation Studio</h3>
           </div>
           <Button 
             variant="outline" 
@@ -287,14 +290,14 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
             disabled={isTranslating}
           >
             {isTranslating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3 text-accent" />}
-            {isTranslating ? 'Translating...' : 'Auto-Translate All'}
+            {isTranslating ? 'Processing...' : 'Auto-Translate Fields'}
           </Button>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="lang1">Select Target Language</Label>
-            <Select onValueChange={handleLanguageChange}>
+            <Label htmlFor="lang1">Target Language</Label>
+            <Select onValueChange={handleLanguageChange} defaultValue="HI">
               <SelectTrigger id="lang1">
                 <SelectValue placeholder="Select Language" />
               </SelectTrigger>
@@ -314,14 +317,14 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           </div>
           <div className="flex items-center gap-2 p-2 bg-blue-50 border border-blue-100 rounded text-[11px] text-blue-700">
             <Info className="w-4 h-4 flex-shrink-0" />
-            Translating Name, Father Name, and Address fields using advanced AI.
+            Translates English text into verified regional scripts using GenAI.
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="address">Voter Address (English)</Label>
+          <Label htmlFor="address">Address (English)</Label>
           <Textarea 
             id="address" 
             name="address" 
@@ -344,12 +347,12 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="tahshil">Tahshil</Label>
-          <Input id="tahshil" name="tahshil" value={formData.tahshil} onChange={handleChange} />
-        </div>
-        <div className="space-y-2">
           <Label htmlFor="district">District</Label>
           <Input id="district" name="district" value={formData.district} onChange={handleChange} />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="state">State</Label>
+          <Input id="state" name="state" value={formData.state} onChange={handleChange} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="partNo">Part No</Label>
