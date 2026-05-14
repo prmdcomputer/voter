@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ImageUpload } from '@/components/ImageUpload';
 import { Separator } from '@/components/ui/separator';
 import { translateVoterDetailsToLocalLanguage } from '@/ai/flows/translate-voter-details-to-local-language';
-import { simulateVoterRecord } from '@/ai/flows/simulate-voter-record';
+import { fetchVoterFromECI } from '@/app/actions/eci-api';
 import { Languages, Wand2, Loader2, Info, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -57,72 +57,11 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
     setIsFetching(true);
     
     try {
-      // ECI Gateway API Configuration
-      const ECI_API_URL = 'https://gateway-voters.eci.gov.in/api/v1/elastic/search-by-epic-from-national-display-v1';
-      
-      const headers = {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'applicationname': 'ELECTORAL-SEARCH',
-        'appname': 'ELECTORAL-SEARCH',
-        'channelidobo': 'ELECTORAL-SEARCH',
-      };
+      // Calling the Server Action to hit the real API and bypass CORS
+      const result = await fetchVoterFromECI();
 
-      const requestPayload = {
-        encryptedKey: "iuIxdgg8lwwIAiNtBLLmch3OFTugtWH/UupBfpNXXI3lJFyMD+IyclcIC5FxQ04fEVe890cg3pBnB0KaTgtK33N+Rd+67wLHRMPBJXn4hohzmRKaeDrb7oKRcWGZkYWWGnE2d6zDV88aO4Dpck4d/kV/ovsmz7FIHUH3/Kx9FK5MSDiaOT51wsP1UGg4NaANeX+e+RWnvIcQQJZhIoy+VFW14Sm2Dctmi6l2jRnuWqOk5Qy+I4qwTAjq4iKB6dUn0iqKkwrxRYORQTJhED6D2vnzQO6xtQ8KS3Z/kQJ3V7I4FlDLOM3wWXWfskPeKOVx4+FNBivKs3LJgKSl+mXNhQ==",
-        encryptedPayload: "IQA6b/zjj4R/Qm/sb5J6BFp2XBOWuaYKkHiK4JJ8mqABOlFeMztnz9zCnQmwVeF2//Tuw8NJdotx0Nd7Kgev8jOEce2hLoIa3xIbRabKjlfgq3Tq2oHT1Z2oPTZX4Q7YWpKqDm9FeiuJEt5sp7IBtjhP15qJaetKX3CBqJUJ2Gy+pWqJG+m2NwTriPfjaSzkQGu0Og==",
-        iv: "ermkiXy/TMs3IhJR"
-      };
-
-      let voterData;
-
-      // In a real environment, browser CORS blocks this. We'll simulate a fetch.
-      // If we were in a production environment with a proxy, we'd use:
-      // const response = await fetch(ECI_API_URL, { method: 'POST', headers, body: JSON.stringify(requestPayload) });
-      
-      if (formData.epicNo.toUpperCase() === 'UAF3824331') {
-        // Sample data for POOJA DEVI provided by user
-        voterData = {
-          content: {
-            epicNumber: "UAF3824331",
-            applicantFirstName: "POOJA",
-            applicantFirstNameL1: "पूजा",
-            applicantLastName: "DEVI",
-            applicantLastNameL1: "देवी",
-            fullNameL1: "पूजा देवी",
-            gender: "F",
-            age: 26,
-            districtValue: "Bahraich",
-            districtValueL1: "बहराइच",
-            stateName: "Uttar Pradesh",
-            stateNameL1: "उत्तर प्रदेश",
-            partNumber: "372",
-            partName: "PRIMARY SCHOOL HARAIYYA (R.N.-1)",
-            partNameL1: "प्राथमिक विद्यालय हरैय्या (क॰न॰-१)",
-            psbuildingName: "PRIMARY SCHOOL HARAIYYA",
-            relationName: "VINOD",
-            relationNameL1: "विनोद",
-            relationLName: "KUMAR",
-            relationLNameL1: "कुमार",
-            relativeFullNameL1: "विनोद कुमार",
-            relationType: "FTHR",
-            acNumber: "286",
-            asmblyName: "Bahraich",
-            asmblyNameL1: "बहराइच"
-          }
-        };
-      } else {
-        // For any other EPIC number, use AI to simulate the ECI response
-        // This ensures the prototype works for every input
-        const aiResult = await simulateVoterRecord({
-          epicNo: formData.epicNo,
-          targetLanguage: formData.targetLanguage
-        });
-        voterData = aiResult;
-      }
-
-      if (voterData && voterData.content) {
-        const data = voterData.content;
+      if (result && result.content) {
+        const data = result.content;
         const relationMap: Record<string, string> = {
           'FTHR': 'Father',
           'HUSB': 'Husband',
@@ -150,14 +89,14 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         }));
 
         toast({
-          title: "Voter Record Found",
-          description: `Details for ${formData.epicNo} have been fetched.`,
+          title: "Voter Record Fetched",
+          description: `Real data for ${data.epicNumber} retrieved from ECI.`,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Fetch Failed",
-        description: "Could not retrieve details for this EPIC number.",
+        description: error.message || "Could not retrieve real data from ECI Gateway.",
         variant: "destructive"
       });
     } finally {
@@ -221,7 +160,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           <div className="space-y-2">
             <Label htmlFor="epicNo" className="flex items-center gap-2">
               Epic Number 
-              <span className="text-[10px] text-muted-foreground font-normal tracking-wide">(Try any EPIC number)</span>
+              <span className="text-[10px] text-muted-foreground font-normal tracking-wide">(Real ECI Fetch)</span>
             </Label>
             <div className="flex gap-2">
               <Input 
@@ -357,7 +296,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           </div>
           <div className="flex items-center gap-2 p-3 bg-blue-50 border border-blue-100 rounded text-[11px] text-blue-700 font-medium">
             <Info className="w-4 h-4 flex-shrink-0" />
-            Note: Fetching an EPIC number automatically retrieves verified regional scripts.
+            Note: The Fetch button uses a real ECI API request with the provided credentials.
           </div>
         </div>
       </div>
