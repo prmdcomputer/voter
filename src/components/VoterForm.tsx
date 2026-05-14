@@ -45,23 +45,22 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
   };
 
   const handleFetchVoterDetails = async () => {
-    if (!formData.epicNo) {
-      toast({
-        title: "EPIC Number Required",
-        description: "Please enter a valid EPIC number.",
-        variant: "destructive"
-      });
-      return;
-    }
-
     setIsFetching(true);
     
     try {
-      // Calling the Server Action to hit the real API and bypass CORS
-      const result = await fetchVoterFromECI();
+      const response = await fetchVoterFromECI();
 
-      if (result && result.content) {
-        const data = result.content;
+      if (response.error) {
+        toast({
+          title: "ECI Fetch Error",
+          description: response.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (response.data && response.data.content) {
+        const data = response.data.content;
         const relationMap: Record<string, string> = {
           'FTHR': 'Father',
           'HUSB': 'Husband',
@@ -71,6 +70,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
         setFormData((prev: any) => ({
           ...prev,
+          epicNo: data.epicNumber || prev.epicNo,
           name: `${data.applicantFirstName} ${data.applicantLastName}`.toUpperCase(),
           nameLocal: data.fullNameL1,
           fatherHusbandName: `${data.relationName} ${data.relationLName}`.toUpperCase(),
@@ -90,13 +90,19 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
         toast({
           title: "Voter Record Fetched",
-          description: `Real data for ${data.epicNumber} retrieved from ECI.`,
+          description: `Data for ${data.epicNumber} retrieved from ECI Gateway.`,
+        });
+      } else {
+        toast({
+          title: "No Data Found",
+          description: "The API returned an empty response.",
+          variant: "destructive"
         });
       }
     } catch (error: any) {
       toast({
-        title: "Fetch Failed",
-        description: error.message || "Could not retrieve real data from ECI Gateway.",
+        title: "Client Error",
+        description: "Failed to communicate with Server Action.",
         variant: "destructive"
       });
     } finally {
@@ -160,7 +166,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           <div className="space-y-2">
             <Label htmlFor="epicNo" className="flex items-center gap-2">
               Epic Number 
-              <span className="text-[10px] text-muted-foreground font-normal tracking-wide">(Real ECI Fetch)</span>
+              <span className="text-[10px] text-muted-foreground font-normal tracking-wide">(Direct Gateway Fetch)</span>
             </Label>
             <div className="flex gap-2">
               <Input 
@@ -296,7 +302,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           </div>
           <div className="flex items-center gap-2 p-3 bg-blue-50 border border-blue-100 rounded text-[11px] text-blue-700 font-medium">
             <Info className="w-4 h-4 flex-shrink-0" />
-            Note: The Fetch button uses a real ECI API request with the provided credentials.
+            Note: This uses the real ECI Gateway with provided encrypted credentials.
           </div>
         </div>
       </div>
