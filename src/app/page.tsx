@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { VoterForm } from '@/components/VoterForm';
 import { VoterCardPreview } from '@/components/VoterCardPreview';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,28 +11,28 @@ import { Button } from '@/components/ui/button';
 
 export default function VoterFrontPage() {
   const [formData, setFormData] = useState({
-    epicNo: 'UAF3824331',
-    name: 'POOJA DEVI',
-    nameLocal: 'पूजा देवी',
-    fatherHusbandName: 'VINOD KUMAR',
-    fatherHusbandNameLocal: 'विनोद कुमार',
-    relation: 'Husband',
-    age: '26',
-    dob: '01/01/1998',
-    gender: 'Female',
-    tahshil: 'PAYAGPUR',
-    district: 'BAHRAICH',
-    state: 'UTTAR PRADESH',
-    houseNo: '124',
-    assemblyConstituency: '286- BAHRAICH',
-    assemblyConstituencyLocal: '286- बहराइच',
-    partNo: '372',
-    partName: 'HARAIYYA',
-    partNameLocal: 'हर्रैया',
-    address: 'HARAIYYA PAYAGPUR BAHRAICH UTTAR PRADESH 271870',
-    addressLocal: 'हर्रैया पयागपुर बहराइच उत्तर प्रदेश 271870',
+    epicNo: '',
+    name: '',
+    nameLocal: '',
+    fatherHusbandName: '',
+    fatherHusbandNameLocal: '',
+    relation: 'Father',
+    age: '',
+    dob: '',
+    gender: 'Male',
+    tahshil: '',
+    district: '',
+    state: '',
+    houseNo: '',
+    assemblyConstituency: '',
+    assemblyConstituencyLocal: '',
+    partNo: '',
+    partName: '',
+    partNameLocal: '',
+    address: '',
+    addressLocal: '',
     targetLanguage: 'Hindi',
-    photoUrl: 'https://picsum.photos/seed/voter1/200/250'
+    photoUrl: ''
   });
 
   const handlePrint = () => {
@@ -80,7 +80,7 @@ export default function VoterFrontPage() {
                     Fetch & Edit Voter Details
                   </h2>
                   <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20">
-                    Draft v1.2
+                    Studio Ready
                   </Badge>
                 </div>
               </div>
