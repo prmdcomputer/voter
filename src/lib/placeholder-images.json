@@ -1,3 +1,22 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "voter-portrait",
+      "description": "Sample portrait for voter card",
+      "imageUrl": "https://picsum.photos/seed/voter1/200/250",
+      "imageHint": "voter portrait"
+    },
+    {
+      "id": "qr-code-placeholder",
+      "description": "Placeholder QR code",
+      "imageUrl": "https://picsum.photos/seed/qr/200/200",
+      "imageHint": "qr code"
+    },
+    {
+      "id": "signature-placeholder",
+      "description": "Placeholder signature",
+      "imageUrl": "https://picsum.photos/seed/sign/300/100",
+      "imageHint": "official signature"
+    }
+  ]
 }

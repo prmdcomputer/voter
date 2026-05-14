@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -10,8 +11,11 @@ interface VoterCardPreviewProps {
 }
 
 export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
-  const qrPlaceholder = PlaceHolderImages.find(i => i.id === 'qr-code-placeholder')?.imageUrl || '';
-  const signPlaceholder = PlaceHolderImages.find(i => i.id === 'signature-placeholder')?.imageUrl || '';
+  const qrPlaceholder = PlaceHolderImages.find(i => i.id === 'qr-code-placeholder')?.imageUrl;
+  const signPlaceholder = PlaceHolderImages.find(i => i.id === 'signature-placeholder')?.imageUrl;
+  const portraitPlaceholder = PlaceHolderImages.find(i => i.id === 'voter-portrait')?.imageUrl;
+
+  const photoUrl = formData.photoUrl || portraitPlaceholder;
 
   return (
     <div className="space-y-8 print:space-y-0 print:block">
@@ -24,13 +28,19 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         <div className="w-full flex flex-col items-center">
           <div className="relative w-[120px] h-[150px] border-2 border-primary/20 rounded-md overflow-hidden bg-gray-50 mb-4">
-            <Image 
-              src={formData.photoUrl || PlaceHolderImages[0].imageUrl} 
-              alt="Voter Portrait" 
-              fill 
-              className="object-cover"
-              data-ai-hint="voter portrait"
-            />
+            {photoUrl ? (
+              <Image 
+                src={photoUrl} 
+                alt="Voter Portrait" 
+                fill 
+                className="object-cover"
+                data-ai-hint="voter portrait"
+              />
+            ) : (
+              <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground text-xs">
+                No Photo
+              </div>
+            )}
           </div>
           
           <div className="bg-primary text-white px-4 py-1 rounded-full text-[13px] font-bold tracking-widest mb-4">
@@ -63,21 +73,25 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         <div className="mt-auto w-full flex justify-between items-end">
           <div className="relative w-16 h-16 opacity-80">
-            <Image 
-              src={qrPlaceholder} 
-              alt="QR Code" 
-              fill 
-              className="object-contain"
-            />
-          </div>
-          <div className="text-right flex flex-col items-end">
-            <div className="relative w-20 h-10 -mb-2">
-               <Image 
-                src={signPlaceholder} 
-                alt="Signature" 
+            {qrPlaceholder && (
+              <Image 
+                src={qrPlaceholder} 
+                alt="QR Code" 
                 fill 
                 className="object-contain"
               />
+            )}
+          </div>
+          <div className="text-right flex flex-col items-end">
+            <div className="relative w-20 h-10 -mb-2">
+               {signPlaceholder && (
+                 <Image 
+                  src={signPlaceholder} 
+                  alt="Signature" 
+                  fill 
+                  className="object-contain"
+                />
+               )}
             </div>
             <p className="text-[9px] font-bold text-primary">निर्वाचक रजिस्ट्रीकरण अधिकारी</p>
             <p className="text-[8px] font-semibold text-gray-400 uppercase">Electoral Registration Officer</p>
@@ -140,12 +154,14 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
                <span className="text-[8px] uppercase">Generated via VoterFront</span>
              </div>
              <div className="w-12 h-12 relative opacity-50 grayscale">
-               <Image 
-                src={qrPlaceholder} 
-                alt="Barcode" 
-                fill 
-                className="object-contain"
-              />
+               {qrPlaceholder && (
+                 <Image 
+                  src={qrPlaceholder} 
+                  alt="Barcode" 
+                  fill 
+                  className="object-contain"
+                />
+               )}
              </div>
           </div>
         </div>
