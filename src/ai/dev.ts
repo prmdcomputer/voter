@@ -1,1 +1,4 @@
-// Flows will be imported for their side effects in this file.
+import { config } from 'dotenv';
+config();
+
+import '@/ai/flows/translate-voter-details-to-local-language.ts';
