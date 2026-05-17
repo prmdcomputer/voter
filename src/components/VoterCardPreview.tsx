@@ -2,6 +2,7 @@
 "use client";
 
 import React from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 
 interface VoterCardPreviewProps {
   formData: any;
@@ -51,14 +52,16 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .details-col { margin: 55px 0 0; position: relative; width: 331px; }
         .epic-no { margin: 0 0 10px 6px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
         .bio-row { margin: 12px 0 0; position: relative; display: flex; }
-        .voter-photo { margin: 4px 12px 0 0; width: 120px; height: 162px; object-fit: cover; border: 1px solid #000; }
-        .voter-data { position: relative; width: 199px; display: flex; flex-direction: column; gap: 6px; }
+        
+        .voter-photo { margin: -15px 12px 0 0; width: 120px; height: 162px; object-fit: cover; border: 1px solid #000; }
+        
+        .voter-data { position: relative; width: 199px; display: flex; flex-direction: column; gap: 6px; margin-top: 5px; }
         .voter-name { font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: 500; line-height: 1.4; }
         .relative-name { margin: 3px 0 0 0; font-size: 13px; font-weight: 500; line-height: 1.4; }
         
         .label-text { font-family: 'Noto Sans', sans-serif; font-size: 11px; font-weight: 600; line-height: 1.2; margin-top: 4px; }
         
-        .vertical-text-wrapper { margin: 0 2px 0 0; padding: 0 2px 5px; position: relative; width: 40px; background: url(/bitmap_8.png) no-repeat center bottom; display: flex; align-items: center; }
+        .vertical-text-wrapper { margin: 40px 2px 0 0; padding: 0 2px 5px; position: relative; width: 40px; background: url(/bitmap_8.png) no-repeat center bottom; display: flex; align-items: center; }
         .vertical-epic { display: block; margin: 0 auto; }
         
         .back-card-wrapper { height: 310px; position: relative; width: 493px; overflow: hidden; }
@@ -84,7 +87,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
       `}</style>
 
       <div className="card-row">
-        {/* Front Card */}
         <div className="front-card-wrapper">
           <div className="front-card">
             <div className="inner-row">
@@ -110,14 +112,13 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         <div className="dotted-line no-print"></div>
 
-        {/* Back Card */}
         <div className="back-card-wrapper">
           <div className="back-card">
             <div className="back-inner-row">
               <div className="qr-col">
                 <img src="/bitmap_9.png" alt="Gov" width="60" height="36" />
                 <div className="qr-holder">
-                  <img src="/path_52.png" alt="QR" width="117" height="117" />
+                  <QRCodeSVG value={formData.epicNo || 'N/A'} size={110} />
                 </div>
                 <p className="qr-caption">Scan By VHA/BLO App</p>
               </div>
