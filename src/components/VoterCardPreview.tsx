@@ -47,13 +47,9 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .row { margin: 0 auto; padding: 0; position: relative; width: 1155px; display: flex; justify-content: center; gap: 47px; }
         
         .wrapper-3 { height: 310px; position: relative; width: 492px; border: 1px solid #000; overflow: hidden; }
-        .col-4 { height: 100%; padding: 19px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
+        .col-4 { height: 100%; padding: 45px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
         
-        .text-2 { margin: 0 auto; width: 344px; font-size: 18px; font-weight: bold; text-align: center; }
-        .text-style-3 { font-family: 'Noto Sans', sans-serif; line-height: 22px; }
-        .text-style-4 { line-height: 25.3px; }
-        
-        .row-4 { margin: 10px auto 0; position: relative; width: 450px; display: flex; justify-content: space-between; }
+        .row-4 { margin: 0 auto; position: relative; width: 450px; display: flex; justify-content: space-between; }
         .col-13 { margin: 17px 0 0; position: relative; width: 331px; }
         .text-3 { margin: 0 0 0 6px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
         .row-10 { margin: 7px 0 0; position: relative; display: flex; }
@@ -90,10 +86,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         {/* Front Card */}
         <div className="wrapper-3">
           <div className="col-4">
-            <p className="text-2">
-              <strong className="text-style-3">भारत िनवार्चन आयोग</strong><br />
-              <span className="text-style-4">ELECTION COMMISSION OF INDIA</span>
-            </p>
             <div className="row-4 group">
               <div className="col-13">
                 <p className="text-3">{formData.epicNo || '...'}</p>
@@ -143,7 +135,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
               </div>
               <div className="flex items-center gap-2">
                 <img src="/bitmap_11.png" alt="" width="17" height="16" />
-                <span className="text-17">https://voters.eci.gov.in/</span>
+                <span className="text-17">https://voters.eci.gov.in//</span>
               </div>
             </div>
           </div>
