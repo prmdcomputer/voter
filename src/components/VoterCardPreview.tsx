@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -11,9 +10,23 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
   const photoUrl = formData.photoUrl || '/bitmap_7.jpg';
   
   const getGenderText = () => {
-    if (formData.gender === 'Male') return 'लिंग/Gender : पुरुष/ Male';
-    if (formData.gender === 'Female') return 'लिंग/Gender : महिला/ Female';
-    return 'लिंग/Gender : अन्य/ Other';
+    if (formData.gender === 'Female') return 'लिंग / Gender: महिला / Female';
+    if (formData.gender === 'Male') return 'लिंग / Gender: पुरुष / Male';
+    return 'लिंग / Gender: अन्य / Other';
+  };
+
+  const getDobOrAgeText = () => {
+    if (formData.inputMode === 'dob' && formData.dob) {
+      const date = new Date(formData.dob);
+      if (!isNaN(date.getTime())) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
+      return formData.dob;
+    }
+    return formData.age || '...';
   };
 
   return (
@@ -32,21 +45,22 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .l-unconstrained { position: relative; }
         .l-constrained { margin: 0 auto; position: relative; width: 1155px; }
         
-        .path-8 {
-          height: 1px;
-          margin: 24px auto 0;
-          position: relative;
-          width: 100%;
-          background: url(/path_8.png) no-repeat center 0;
-          background-size: cover;
-        }
+        .text { margin: 0 auto; width: 458px; font-size: 24px; font-weight: bold; text-align: center; line-height: 1.2; }
+        .text-style-2 { line-height: 24.9px; }
+        
+        .path-2 { display: block; height: 4px; margin: 13px auto 0; position: relative; width: 600px; background-color: #000000; }
+        .path-8 { height: 1px; margin: 24px auto 0; position: relative; width: 100%; background: url(/path_8.png) no-repeat center 0; background-size: cover; }
         
         .row { margin: 17px auto 0; padding: 0 35px 0 38px; position: relative; width: 1155px; display: flex; justify-content: center; gap: 47px; }
         
         .wrapper-3 { height: 310px; position: relative; width: 492px; margin-top: 31px; border: 1px solid #000; }
         .col-4 { height: 100%; padding: 19px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
         
-        .row-4 { margin: 20px auto 0; position: relative; width: 450px; display: flex; justify-content: space-between; }
+        .text-2 { margin: 0 auto; width: 344px; font-size: 18px; font-weight: bold; text-align: center; }
+        .text-style-3 { font-family: 'Noto Sans', sans-serif; line-height: 22px; }
+        .text-style-4 { line-height: 25.3px; }
+        
+        .row-4 { margin: 10px auto 0; position: relative; width: 450px; display: flex; justify-content: space-between; }
         .col-13 { margin: 17px 0 0; position: relative; width: 331px; }
         .text-3 { margin: 0 0 0 6px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
         .row-10 { margin: 7px 0 0; position: relative; display: flex; }
@@ -75,6 +89,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .text-16, .text-17 { font-size: 10px; }
 
         .l-unconstrained-2 { margin: 30px 0 0; position: relative; }
+        .l-constrained-2 { margin: 0 auto; width: 1155px; }
         .row-5 { display: flex; height: 5px; }
         .path-28 { width: 341px; background-color: #b04757; }
         .path-28-2 { flex: 1; background-color: #b04757; }
@@ -97,6 +112,11 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
       <div className="l-unconstrained">
         <div className="l-constrained">
+          <p className="text">
+            <strong className="text-style">भारत िनवार्चन आयोग</strong><br />
+            <span className="text-style-2">ELECTION COMMISSION OF INDIA</span>
+          </p>
+          <div className="path-2"></div>
         </div>
       </div>
 
@@ -106,6 +126,10 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         {/* Front Card */}
         <div className="wrapper-3">
           <div className="col-4">
+            <p className="text-2">
+              <strong className="text-style-3">भारत िनवार्चन आयोग</strong><br />
+              <span className="text-style-4">ELECTION COMMISSION OF INDIA</span>
+            </p>
             <div className="row-4 group">
               <div className="col-13">
                 <p className="text-3">{formData.epicNo || 'UP/31/153/0000000'}</p>
@@ -116,7 +140,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
                     <p className="text-5"><strong>{formData.relation === 'Husband' ? 'पति' : 'पिता'} का नाम: {formData.fatherHusbandNameLocal || '...'}</strong><br />{formData.relation}&apos;s Name: {formData.fatherHusbandName || '...'}</p>
                     
                     <div className="dynamic-label">{getGenderText()}</div>
-                    <div className="dynamic-label">जन्मतिथि/ आयु:  Date of Birth / Age: {formData.age || '...'}</div>
+                    <div className="dynamic-label">जन्मतिथि/ आयु:  Date of Birth / Age: {getDobOrAgeText()}</div>
                   </div>
                 </div>
               </div>
@@ -162,7 +186,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         </div>
       </div>
 
-      <div className="path-8 mt-10"></div>
+      <div className="path-8-2 mt-10"></div>
 
       {/* Info Sheet */}
       <div className="l-unconstrained-2">

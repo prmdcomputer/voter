@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { UserCheck, Printer, History, ArrowLeft, CheckCircle2, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Toaster } from '@/components/ui/toaster';
 
 export default function VoterFrontPage() {
   const [step, setStep] = useState<'edit' | 'preview'>('edit');
@@ -20,6 +21,7 @@ export default function VoterFrontPage() {
     relation: 'Father',
     age: '',
     dob: '',
+    inputMode: 'age', // 'age' or 'dob'
     gender: 'Male',
     tahshil: '',
     district: '',
@@ -52,6 +54,7 @@ export default function VoterFrontPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-foreground pb-12">
+      <Toaster />
       {/* Header */}
       <header className="no-print bg-white border-b sticky top-0 z-50 px-6 py-4 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-3">
@@ -147,7 +150,7 @@ export default function VoterFrontPage() {
                   </div>
                 </div>
                 
-                <div className="flex justify-center p-8 bg-white rounded-3xl shadow-2xl border border-gray-100 print:p-0 print:bg-transparent print:shadow-none print:border-none">
+                <div className="flex justify-center p-8 bg-white rounded-3xl shadow-2xl border border-gray-100 print:p-0 print:bg-transparent print:shadow-none print:border-none overflow-x-auto">
                   <VoterCardPreview formData={formData} />
                 </div>
               </div>

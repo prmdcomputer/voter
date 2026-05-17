@@ -9,8 +9,9 @@ import { Button } from '@/components/ui/button';
 import { ImageUpload } from '@/components/ImageUpload';
 import { Separator } from '@/components/ui/separator';
 import { fetchVoterFromECI } from '@/app/actions/eci-api';
-import { Loader2, Search } from 'lucide-react';
+import { Loader2, Search, Calendar, Hash } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface VoterFormProps {
   formData: any;
@@ -52,21 +53,21 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
         setFormData((prev: any) => ({
           ...prev,
-          epicNo: data.epicNumber || prev.epicNo,
+          epicNo: data.epicNumber || prev.epicNo || '',
           name: `${data.applicantFirstName} ${data.applicantLastName}`.toUpperCase(),
-          nameLocal: data.fullNameL1,
+          nameLocal: data.fullNameL1 || '',
           fatherHusbandName: `${data.relationName} ${data.relationLName}`.toUpperCase(),
-          fatherHusbandNameLocal: data.relativeFullNameL1,
+          fatherHusbandNameLocal: data.relativeFullNameL1 || '',
           relation: relationMap[data.relationType] || 'Father',
-          age: data.age.toString(),
+          age: data.age?.toString() || '',
           gender: data.gender === 'F' ? 'Female' : 'Male',
-          district: data.districtValue.toUpperCase(),
-          state: data.stateName.toUpperCase(),
+          district: data.districtValue?.toUpperCase() || '',
+          state: data.stateName?.toUpperCase() || '',
           assemblyConstituency: `${data.acNumber}- ${data.asmblyName}`.toUpperCase(),
           assemblyConstituencyLocal: `${data.acNumber}- ${data.asmblyNameL1}`,
-          partNo: data.partNumber,
-          partName: data.psbuildingName.toUpperCase(),
-          partNameLocal: data.partNameL1,
+          partNo: data.partNumber || '',
+          partName: data.psbuildingName?.toUpperCase() || '',
+          partNameLocal: data.psBuildingNameL1 || '',
           serialNo: data.partSerialNumber?.toString() || '',
           address: `${data.partName}, ${data.districtValue}, ${data.stateName}`.toUpperCase(),
           addressLocal: `${data.partNameL1}, ${data.districtValueL1}, ${data.stateNameL1}`
@@ -133,12 +134,54 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
               </Button>
             </div>
           </div>
+          
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="age">Age</Label>
-              <Input id="age" name="age" type="number" value={formData.age || ''} onChange={handleChange} />
+            <div className="space-y-2 col-span-2">
+              <Label>Age / DOB Input Mode</Label>
+              <Tabs 
+                value={formData.inputMode || 'age'} 
+                onValueChange={(val) => setFormData((prev: any) => ({ ...prev, inputMode: val }))}
+                className="w-full"
+              >
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="age" className="gap-2">
+                    <Hash className="w-4 h-4" />
+                    Enter Age
+                  </TabsTrigger>
+                  <TabsTrigger value="dob" className="gap-2">
+                    <Calendar className="w-4 h-4" />
+                    Enter DOB
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
             </div>
-            <div className="space-y-2">
+
+            {formData.inputMode === 'dob' ? (
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="dob">Date of Birth</Label>
+                <Input 
+                  id="dob" 
+                  name="dob" 
+                  type="date" 
+                  value={formData.dob || ''} 
+                  onChange={handleChange} 
+                />
+              </div>
+            ) : (
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="age">Age</Label>
+                <Input 
+                  id="age" 
+                  name="age" 
+                  type="number" 
+                  value={formData.age || ''} 
+                  onChange={handleChange} 
+                  placeholder="e.g. 26"
+                />
+              </div>
+            )}
+
+            <div className="space-y-2 col-span-2">
               <Label htmlFor="gender">Gender</Label>
               <Select onValueChange={(val) => setFormData((prev: any) => ({ ...prev, gender: val }))} value={formData.gender || 'Male'}>
                 <SelectTrigger>
