@@ -29,7 +29,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         return `${day}/${month}/${year}`;
       }
     }
-    return formData.age || '63';
+    return formData.age || '30';
   };
 
   const relationLabelHindi = formData.relation === 'Husband' ? 'पति का नाम' : 
@@ -40,7 +40,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
   const assemblyTextHindi = `${formData.acNumber || '286'} - ${formData.asmblyNameLocal || 'बहराइच'}`;
   const assemblyTextEnglish = `${formData.acNumber || '286'} - ${formData.asmblyName || 'BAHRAICH'}`;
 
-  const epicNo = formData.epicNo || 'UP/31/153/0063398';
+  const epicNo = formData.epicNo || 'UAF3763489';
 
   return (
     <div className="voter-preview-wrapper print:m-0">
@@ -151,8 +151,8 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           color: #000;
         }
         .gender-row { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-        .dob-row-hindi { display: block; font-weight: 700; font-size: 26px; }
-        .dob-row-eng { font-weight: 700; font-size: 26px; }
+        .dob-row-hindi { display: block; font-weight: 700; font-size: 20px; }
+        .dob-row-eng { font-weight: 700; font-size: 20px; }
         .dob-val { font-weight: 500; }
 
         #Layer6 {
@@ -198,7 +198,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         #Layer9 {
           left: 1403px;
-          top: 170px;
+          top: 180px;
           position: absolute;
           width: 640px;
           height: auto;
@@ -218,7 +218,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           width: 600px;
           height: auto;
           z-index: 10;
-          font-size: 22px;
+          font-size: 28px;
           line-height: 1.4;
           color: #000;
         }
@@ -254,18 +254,18 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         <div id="Layer5">{epicNo}</div>
 
         <div id="Layer2">
-          <span className="name-hindi">नाम: {formData.nameLocal || 'सीतापती'}</span>
+          <span className="name-hindi">नाम: {formData.nameLocal || 'शैलेंद्रसिंह'}</span>
           <div>
             <span className="name-eng-label">Name: </span>
-            <span className="name-eng-val">{formData.name || 'SITAPTI'}</span>
+            <span className="name-eng-val">{formData.name || 'SHAILENDRASINGH'}</span>
           </div>
         </div>
 
         <div id="Layer3">
-          <span className="rel-hindi">{relationLabelHindi}: {formData.fatherHusbandNameLocal || 'रामनरायन'}</span>
+          <span className="rel-hindi">{relationLabelHindi}: {formData.fatherHusbandNameLocal || 'राम शंकर सिंह'}</span>
           <div>
             <span className="rel-eng-label">{relationLabelEnglish}: </span>
-            <span className="rel-eng-val">{formData.fatherHusbandName || 'RAMNARAYAN'}</span>
+            <span className="rel-eng-val">{formData.fatherHusbandName || 'RAM SHANKARSINGH'}</span>
           </div>
         </div>
 
@@ -289,8 +289,8 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         </div>
 
         <div id="Layer9">
-          <span className="addr-hindi">पता: {formData.addressLocal || '65, त्रिकोलिया-२, त्रिकोलिया, पयागपुर, बहराइच, उत्तर प्रदेश - 271871'}</span>
-          <span className="addr-eng"><span className="font-bold">Address: </span>{formData.address || '65, TRIKOLIYA-2, TRIKOLIYA, PAYAGPUR, BAHRAICH, UTTAR PRADESH - 271871'}</span>
+          <span className="addr-hindi">पता: {formData.addressLocal || 'त्रिकोलिया, पयागपुर, बहराइच, उत्तर प्रदेश - 271871'}</span>
+          <span className="addr-eng"><span className="font-bold">Address: </span>{formData.address || 'trikoliya payagpur, bahraich, uttar pradesh - 271871'}</span>
         </div>
 
         <div id="Layer12">
