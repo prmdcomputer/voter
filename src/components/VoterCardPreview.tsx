@@ -204,12 +204,12 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           height: auto;
           min-height: 150px;
           z-index: 10;
-          font-size: 24px;
+          font-size: 32px;
           line-height: 1.3;
           color: #000;
         }
-        .addr-hindi { font-weight: 700; display: block; margin-bottom: 5px; }
-        .addr-eng { font-weight: 500; display: block; }
+        .addr-hindi { font-weight: 700; display: block; margin-bottom: 5px; font-size: 34px; }
+        .addr-eng { font-weight: 500; display: block; font-size: 30px; }
 
         #Layer12 {
           left: 1399px;
