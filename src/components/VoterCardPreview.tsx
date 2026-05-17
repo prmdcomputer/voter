@@ -9,13 +9,6 @@ interface VoterCardPreviewProps {
 export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
   const photoUrl = formData.photoUrl || '/bitmap_7.jpg';
   
-  const today = new Date();
-  const downloadDate = today.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  }).replace(/\//g, '-');
-
   return (
     <div className="voter-preview-page print:m-0">
       <style jsx>{`
@@ -30,7 +23,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           padding-bottom: 40px;
         }
         .l-constrained { margin: 0 auto; position: relative; width: 1155px; }
-        .header-text { margin: 0 auto; width: 458px; font-size: 24px; font-weight: bold; text-align: center; line-height: 1.2; }
         .path-2 { display: block; height: 4px; margin: 13px auto 0; position: relative; width: 600px; background-color: #000; }
         .path-8 { height: 1px; margin: 24px auto 0; width: 100%; border-bottom: 1px dashed #ccc; }
         
@@ -41,7 +33,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .card-back { background: url('/bitmap_2.png') no-repeat; background-size: cover; height: 100%; padding: 15px 10px; }
 
         .path-42 { display: block; margin: 20px auto 0; }
-        .eci-title { margin: 10px auto 0; width: 344px; text-align: center; font-family: 'Noto Sans', sans-serif; font-size: 18px; font-weight: bold; }
         
         .front-content { display: flex; gap: 10px; margin-top: 15px; }
         .epic-id { font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
@@ -50,14 +41,11 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .portrait-img { width: 120px; height: 162px; border: 1px solid #000; object-fit: cover; }
         .voter-info { flex: 1; display: flex; flex-direction: column; gap: 6px; font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: bold; }
         
-        .footer-banner { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 370px; }
-
         .back-row { display: flex; gap: 20px; }
         .back-left { width: 142px; display: flex; flex-direction: column; align-items: center; }
         .qr-holder { width: 142px; height: 142px; background: url('/path_51.png') no-repeat; display: flex; align-items: center; justify-content: center; margin-top: 9px; }
         .back-right { flex: 1; font-family: 'Noto Sans', sans-serif; font-size: 14px; font-weight: bold; line-height: 1.4; }
         
-        .download-date { position: absolute; bottom: 58px; right: 20px; font-size: 14px; font-weight: bold; }
         .epic-bottom { position: absolute; bottom: 50px; left: 44px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 14px; }
         
         .bottom-links { position: absolute; bottom: 10px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; font-size: 10px; }
@@ -81,10 +69,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
       `}</style>
 
       <div className="l-constrained">
-        <p className="header-text">
-          <strong>भारत निर्वाचन आयोग</strong><br />
-          <span className="font-normal text-[25px]">ELECTION COMMISSION OF INDIA</span>
-        </p>
         <div className="path-2"></div>
       </div>
 
@@ -95,10 +79,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         <div className="card-wrapper">
           <div className="card-front">
             <img className="path-42" src="/path_42.png" alt="" width="332" height="3" />
-            <div className="eci-title">
-              <strong>भारत निर्वाचन आयोग</strong><br />
-              <span className="font-normal">ELECTION COMMISSION OF INDIA</span>
-            </div>
             <div className="mt-4">
               <span className="epic-id">{formData.epicNo || 'UP/31/153/0000000'}</span>
               <div className="portrait-section">
@@ -111,7 +91,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
                 </div>
               </div>
             </div>
-            <img className="footer-banner" src="/e-electors_photo_identity.png" alt="Banner" />
           </div>
         </div>
 
@@ -136,7 +115,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
                 </div>
               </div>
             </div>
-            <p className="download-date">Download Date -: {downloadDate}</p>
             <p className="epic-bottom">{formData.epicNo}</p>
             <div className="bottom-links">
               <div className="flex items-center gap-2">
@@ -164,8 +142,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           <div className="sheet-left">
             <img src="/path_9.png" alt="Big QR" width="256" height="256" />
             <p className="text-base mt-2">Scan By VHA/BLO App</p>
-            <img className="mt-4" src="/download_date_-_19-06-202.png" alt="Date Banner" width="237" height="41" />
-            <p className="font-bold text-lg">N.A</p>
+            <p className="font-bold text-lg mt-12">N.A</p>
             <img src="/timings_n_a.png" alt="Timings" width="123" height="36" />
           </div>
           <div className="sheet-right">
