@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -61,16 +62,14 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           relation: relationMap[data.relationType] || 'Father',
           age: data.age?.toString() || '',
           gender: data.gender === 'F' ? 'Female' : 'Male',
-          district: data.districtValue?.toUpperCase() || '',
-          state: data.stateName?.toUpperCase() || '',
-          assemblyConstituency: `${data.acNumber}- ${data.asmblyName}`.toUpperCase(),
-          assemblyConstituencyLocal: `${data.acNumber}- ${data.asmblyNameL1}`,
+          acNumber: data.acNumber || '',
+          asmblyName: data.asmblyName?.toUpperCase() || '',
+          asmblyNameLocal: data.asmblyNameL1 || '',
           partNo: data.partNumber || '',
           partName: data.psbuildingName?.toUpperCase() || '',
           partNameLocal: data.psBuildingNameL1 || '',
-          serialNo: data.partSerialNumber?.toString() || '',
-          address: `${data.partName}, ${data.districtValue}, ${data.stateName}`.toUpperCase(),
-          addressLocal: `${data.partNameL1}, ${data.districtValueL1}, ${data.stateNameL1}`
+          address: `${data.psbuildingName}, ${data.districtValue}, ${data.stateName}`.toUpperCase(),
+          addressLocal: `${data.psBuildingNameL1}, ${data.districtValueL1}, ${data.stateNameL1}`
         }));
 
         toast({
@@ -238,30 +237,37 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
       <Separator />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="assemblyConstituency">Assembly No & Name (English)</Label>
-          <Input id="assemblyConstituency" name="assemblyConstituency" value={formData.assemblyConstituency || ''} onChange={handleChange} placeholder="286-Bahraich" className="uppercase" />
+          <Label htmlFor="acNumber">Assembly No</Label>
+          <Input id="acNumber" name="acNumber" value={formData.acNumber || ''} onChange={handleChange} placeholder="286" />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="assemblyConstituencyLocal">Assembly No & Name (Regional Script)</Label>
-          <Input id="assemblyConstituencyLocal" name="assemblyConstituencyLocal" value={formData.assemblyConstituencyLocal || ''} onChange={handleChange} placeholder="286 - बहराइच" />
+          <Label htmlFor="asmblyName">Assembly Name (English)</Label>
+          <Input id="asmblyName" name="asmblyName" value={formData.asmblyName || ''} onChange={handleChange} placeholder="BAHRAICH" className="uppercase" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="asmblyNameLocal">Assembly Name (Regional)</Label>
+          <Input id="asmblyNameLocal" name="asmblyNameLocal" value={formData.asmblyNameLocal || ''} onChange={handleChange} placeholder="बहराइच" />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="partNo">Part No & Name (English)</Label>
-          <div className="flex gap-2">
-            <Input id="partNo" name="partNo" value={formData.partNo || ''} onChange={handleChange} placeholder="321" className="w-20" />
-            <Input id="partName" name="partName" value={formData.partName || ''} onChange={handleChange} placeholder="PRIMARY SCHOOL" className="flex-1 uppercase" />
-          </div>
+          <Label htmlFor="partNo">Part No</Label>
+          <Input id="partNo" name="partNo" value={formData.partNo || ''} onChange={handleChange} placeholder="321" />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="partNameLocal">Part No & Name (Regional Script)</Label>
-          <Input id="partNameLocal" name="partNameLocal" value={formData.partNameLocal || ''} onChange={handleChange} placeholder="भाग संख्या और नाम क्षेत्रीय में" />
+          <Label htmlFor="partName">Part Name (English)</Label>
+          <Input id="partName" name="partName" value={formData.partName || ''} onChange={handleChange} placeholder="PRIMARY SCHOOL" className="uppercase" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="partNameLocal">Part Name (Regional)</Label>
+          <Input id="partNameLocal" name="partNameLocal" value={formData.partNameLocal || ''} onChange={handleChange} placeholder="उच्च प्राथमिक विद्यालय" />
         </div>
       </div>
+
+      <Separator />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
@@ -284,21 +290,6 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
             onChange={handleChange} 
             rows={2}
           />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="district">District</Label>
-          <Input id="district" name="district" value={formData.district || ''} onChange={handleChange} className="uppercase" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="state">State</Label>
-          <Input id="state" name="state" value={formData.state || ''} onChange={handleChange} className="uppercase" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="serialNo">Serial No</Label>
-          <Input id="serialNo" name="serialNo" value={formData.serialNo || ''} onChange={handleChange} />
         </div>
       </div>
     </div>

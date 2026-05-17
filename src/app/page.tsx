@@ -24,14 +24,12 @@ export default function VoterFrontPage() {
     dob: '',
     inputMode: 'age',
     gender: 'Male',
-    district: '',
-    state: '',
-    assemblyConstituency: '',
-    assemblyConstituencyLocal: '',
+    acNumber: '',
+    asmblyName: '',
+    asmblyNameLocal: '',
     partNo: '',
     partName: '',
     partNameLocal: '',
-    serialNo: '',
     address: '',
     addressLocal: '',
     photoUrl: ''
@@ -119,7 +117,6 @@ export default function VoterFrontPage() {
         ) : (
           <div className="max-w-6xl mx-auto animate-in zoom-in-95 duration-500">
             <div className="flex flex-col gap-8">
-              {/* Simplified Action Toolbar */}
               <div className="no-print flex flex-col sm:flex-row items-center justify-between gap-4 py-2 px-1">
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-6 h-6 text-green-500" />
@@ -141,7 +138,6 @@ export default function VoterFrontPage() {
                 </div>
               </div>
               
-              {/* Clean Preview Area - No Box */}
               <div className="flex justify-center items-center py-10 overflow-x-auto print:p-0">
                 <VoterCardPreview formData={formData} />
               </div>

@@ -38,6 +38,9 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
   const relationLabelEnglish = formData.relation === 'Husband' ? "Husband's Name" : 
                                formData.relation === 'Mother' ? "Mother's Name" : "Father's Name";
 
+  const assemblyTextHindi = `${formData.acNumber || '286'} - ${formData.asmblyNameLocal || 'बहराइच'}`;
+  const assemblyTextEnglish = `${formData.acNumber || '286'} - ${formData.asmblyName || 'Bahraich'}`;
+
   return (
     <div className="voter-preview-wrapper print:m-0">
       <style jsx>{`
@@ -61,7 +64,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           transform: scale(var(--preview-scale, 0.45));
         }
 
-        /* Front Card Background */
         #Layer14 {
           left: 9px;
           top: 24px;
@@ -73,7 +75,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           background-size: cover;
         }
 
-        /* Back Card Background */
         #Layer15 {
           left: 1045px;
           top: 23px;
@@ -85,7 +86,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           background-size: cover;
         }
 
-        /* Voter Photo (Front) */
         #Layer13 {
           left: 38px;
           top: 254px;
@@ -98,7 +98,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         }
         #Layer13 img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* EPIC No (Front) - Black */
         #Layer5 {
           left: 45px;
           top: 194px;
@@ -112,7 +111,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           font-size: 34px;
         }
 
-        /* Name Details (Front) */
         #Layer2 {
           left: 313px;
           top: 262px;
@@ -127,7 +125,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .name-eng-label { font-weight: 700; font-size: 26px; }
         .name-eng-val { font-weight: 500; font-size: 26px; text-transform: uppercase; }
 
-        /* Relation Details (Front) */
         #Layer3 {
           left: 311px;
           top: 349px;
@@ -142,7 +139,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .rel-eng-label { font-weight: 700; font-size: 26px; }
         .rel-eng-val { font-weight: 500; font-size: 26px; text-transform: uppercase; }
 
-        /* Gender & Age/DOB (Front) */
         #Layer4 {
           left: 311px;
           top: 436px;
@@ -158,7 +154,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .dob-row-eng { font-weight: 700; font-size: 26px; }
         .dob-val { font-weight: 500; }
 
-        /* Ghost Image (Front) */
         #Layer6 {
           left: 874px;
           top: 186px;
@@ -171,7 +166,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         }
         #Layer6 img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Vertical EPIC (Front) */
         #Layer7 {
           left: 958px;
           top: 177px;
@@ -185,7 +179,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           font-weight: bold;
         }
 
-        /* QR Code (Back) */
         #Layer8 {
           left: 1082px;
           top: 151px;
@@ -200,7 +193,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           padding: 10px;
         }
 
-        /* Address Block (Back) */
         #Layer9 {
           left: 1403px;
           top: 43px;
@@ -216,7 +208,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .addr-hindi { font-weight: 700; display: block; margin-bottom: 5px; }
         .addr-eng { font-weight: 500; display: block; }
 
-        /* ERO Block (Back) */
         #Layer12 {
           left: 1399px;
           top: 356px;
@@ -229,7 +220,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           color: #000;
         }
 
-        /* Bottom EPIC (Back) - Positioned below QR, Color Black */
         .epic-bottom {
            position: absolute;
            left: 1082px;
@@ -261,7 +251,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
       `}</style>
 
       <div id="background">
-        {/* FRONT CARD SECTION */}
         <div id="Layer14" />
         <div id="Layer13">
           <img src={photoUrl} alt="Voter" />
@@ -299,7 +288,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         <div id="Layer7">{formData.epicNo || 'UP/31/153/0063398'}</div>
 
-        {/* BACK CARD SECTION */}
         <div id="Layer15" />
         <div id="Layer8">
           <QRCodeSVG value={formData.epicNo || 'UP/31/153/0063398'} size={260} />
@@ -311,8 +299,8 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         </div>
 
         <div id="Layer12">
-          <div className="font-bold">निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '286 - बहराइच'}</div>
-          <div className="mt-1"><span className="font-bold">Electoral Registration Officer, </span>{formData.assemblyConstituency || '286 - Bahraich'}</div>
+          <div className="font-bold">निर्वाचक रजिस्ट्रीकरण अधिकारी, {assemblyTextHindi}</div>
+          <div className="mt-1"><span className="font-bold">Electoral Registration Officer, </span>{assemblyTextEnglish}</div>
         </div>
 
         <div className="epic-bottom">
