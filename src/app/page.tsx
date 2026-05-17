@@ -22,7 +22,7 @@ export default function VoterFrontPage() {
     relation: 'Father',
     age: '',
     dob: '',
-    inputMode: 'age', // 'age' or 'dob'
+    inputMode: 'age',
     gender: 'Male',
     district: '',
     state: '',
@@ -54,61 +54,36 @@ export default function VoterFrontPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-foreground pb-12">
       <Toaster />
-      {/* Header */}
-      <header className="no-print bg-white border-b sticky top-0 z-50 px-6 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="bg-primary p-2 rounded-lg">
-            <UserCheck className="text-white w-6 h-6" />
+      
+      {/* Branding & Stepper (Consolidated) */}
+      <div className="no-print container mx-auto px-4 py-8">
+        <div className="flex flex-col items-center gap-6 mb-8">
+           <div className="flex items-center gap-3">
+            <div className="bg-primary p-2 rounded-lg">
+              <UserCheck className="text-white w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight text-primary">VoterFront</h1>
+              <p className="text-xs text-muted-foreground font-medium uppercase tracking-tighter">Digital ID Management Studio</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-primary">VoterFront</h1>
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-tighter">Digital ID Management Studio</p>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-3">
-          {step === 'preview' && (
-            <>
-              <Button variant="outline" size="sm" onClick={goToEdit} className="items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Edit Details
-              </Button>
-              <Button onClick={handlePrint} variant="secondary" className="items-center gap-2">
-                <Printer className="w-4 h-4" />
-                Print
-              </Button>
-              <Button onClick={handlePrint} className="items-center gap-2 bg-green-600 hover:bg-green-700 text-white">
-                <Download className="w-4 h-4" />
-                Download PDF
-              </Button>
-            </>
-          )}
-          {step === 'edit' && (
-             <Button variant="outline" size="sm" className="hidden sm:flex items-center gap-2 text-muted-foreground">
-                <History className="w-4 h-4" />
-                Recent Records
-              </Button>
-          )}
-        </div>
-      </header>
 
-      {/* Progress Stepper */}
-      <div className="no-print container mx-auto px-4 mt-6">
-        <div className="flex items-center justify-center gap-4 mb-8">
-          <div className={cn(
-            "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all",
-            step === 'edit' ? "bg-primary text-white shadow-md" : "text-muted-foreground bg-white border"
-          )}>
-            <div className={cn("w-5 h-5 rounded-full flex items-center justify-center text-[10px]", step === 'edit' ? "bg-white text-primary" : "bg-muted text-muted-foreground")}>1</div>
-            Voter Information
-          </div>
-          <ChevronRight className="w-4 h-4 text-muted-foreground" />
-          <div className={cn(
-            "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all",
-            step === 'preview' ? "bg-primary text-white shadow-md" : "text-muted-foreground bg-white border"
-          )}>
-            <div className={cn("w-5 h-5 rounded-full flex items-center justify-center text-[10px]", step === 'preview' ? "bg-white text-primary" : "bg-muted text-muted-foreground")}>2</div>
-            Card Preview & Print
+          <div className="flex items-center justify-center gap-4">
+            <div className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all",
+              step === 'edit' ? "bg-primary text-white shadow-md" : "text-muted-foreground bg-white border"
+            )}>
+              <div className={cn("w-5 h-5 rounded-full flex items-center justify-center text-[10px]", step === 'edit' ? "bg-white text-primary" : "bg-muted text-muted-foreground")}>1</div>
+              Information
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            <div className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all",
+              step === 'preview' ? "bg-primary text-white shadow-md" : "text-muted-foreground bg-white border"
+            )}>
+              <div className={cn("w-5 h-5 rounded-full flex items-center justify-center text-[10px]", step === 'preview' ? "bg-white text-primary" : "bg-muted text-muted-foreground")}>2</div>
+              Print & Export
+            </div>
           </div>
         </div>
       </div>
@@ -119,11 +94,11 @@ export default function VoterFrontPage() {
             <Card className="border-none shadow-xl bg-white overflow-hidden">
               <div className="bg-primary/5 px-8 py-6 border-b flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-primary">Step 1: Voter Details</h2>
-                  <p className="text-sm text-muted-foreground">Enter voter information for the card generation</p>
+                  <h2 className="text-xl font-bold text-primary">Voter Details</h2>
+                  <p className="text-sm text-muted-foreground">Enter voter information to generate the card</p>
                 </div>
                 <Badge variant="secondary" className="bg-primary/10 text-primary uppercase tracking-widest text-[10px]">
-                  Studio Entry Mode
+                  Studio Entry
                 </Badge>
               </div>
               <CardContent className="p-8">
@@ -144,18 +119,31 @@ export default function VoterFrontPage() {
           </div>
         ) : (
           <div className="max-w-5xl mx-auto animate-in zoom-in-95 duration-500">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-              <div className="lg:col-span-12 flex flex-col gap-8">
-                <div className="no-print flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-500" />
-                    <h2 className="text-2xl font-bold">Ready for Printing</h2>
-                  </div>
+            <div className="flex flex-col gap-8">
+              {/* Action Toolbar (In-Page) */}
+              <div className="no-print flex flex-col sm:flex-row items-center justify-between bg-white p-4 rounded-xl shadow-sm border gap-4">
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500" />
+                  <h2 className="text-xl font-bold">Ready to Print</h2>
                 </div>
-                
-                <div className="flex justify-center overflow-x-auto print:p-0">
-                  <VoterCardPreview formData={formData} />
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <Button variant="outline" onClick={goToEdit} className="flex-1 sm:flex-none gap-2">
+                    <ArrowLeft className="w-4 h-4" />
+                    Edit
+                  </Button>
+                  <Button variant="secondary" onClick={handlePrint} className="flex-1 sm:flex-none gap-2">
+                    <Printer className="w-4 h-4" />
+                    Print
+                  </Button>
+                  <Button onClick={handlePrint} className="flex-1 sm:flex-none gap-2 bg-green-600 hover:bg-green-700 text-white">
+                    <Download className="w-4 h-4" />
+                    Download PDF
+                  </Button>
                 </div>
+              </div>
+              
+              <div className="flex justify-center overflow-x-auto print:p-0">
+                <VoterCardPreview formData={formData} />
               </div>
             </div>
           </div>
@@ -164,11 +152,11 @@ export default function VoterFrontPage() {
       
       <footer className="no-print container mx-auto px-4 mt-20 text-center text-muted-foreground/60 text-xs">
         <div className="flex items-center justify-center gap-6 mb-4">
-          <span className="hover:text-primary transition-colors cursor-pointer">Terms of Service</span>
-          <span className="hover:text-primary transition-colors cursor-pointer">Privacy Policy</span>
-          <span className="hover:text-primary transition-colors cursor-pointer">Contact Support</span>
+          <span className="hover:text-primary transition-colors cursor-pointer">Terms</span>
+          <span className="hover:text-primary transition-colors cursor-pointer">Privacy</span>
+          <span className="hover:text-primary transition-colors cursor-pointer">Support</span>
         </div>
-        <p>&copy; 2024 VoterFront Digital ID Studio. All rights reserved.</p>
+        <p>&copy; 2024 VoterFront Studio. All rights reserved.</p>
       </footer>
     </div>
   );
