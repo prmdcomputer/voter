@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react';
-import QRCode from 'react-qr-code';
+import ReactQRCode from 'react-qr-code';
 
 interface VoterCardPreviewProps {
   formData: any;
@@ -28,9 +28,8 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
       }
-      return formData.dob;
     }
-    return formData.age || '24';
+    return formData.age || '63';
   };
 
   const relationLabelHindi = formData.relation === 'Husband' ? 'पति का नाम' : 
@@ -39,7 +38,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
                                formData.relation === 'Mother' ? "Mother's Name" : "Father's Name";
 
   const assemblyTextHindi = `${formData.acNumber || '286'} - ${formData.asmblyNameLocal || 'बहराइच'}`;
-  const assemblyTextEnglish = `${formData.acNumber || '286'} - ${formData.asmblyName || 'Bahraich'}`;
+  const assemblyTextEnglish = `${formData.acNumber || '286'} - ${formData.asmblyName || 'BAHRAICH'}`;
 
   const epicNo = formData.epicNo || 'UP/31/153/0063398';
 
@@ -199,7 +198,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         #Layer9 {
           left: 1403px;
-          top: 155px;
+          top: 170px;
           position: absolute;
           width: 640px;
           height: auto;
@@ -244,16 +243,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         @media screen and (max-width: 768px) {
           .voter-preview-wrapper { --preview-scale: 0.28; }
         }
-        @media print {
-          .voter-preview-wrapper { 
-            transform: scale(1) !important; 
-            max-width: none; 
-            margin: 0;
-          }
-          #voter-card-background {
-             transform: scale(0.35);
-          }
-        }
       `}</style>
 
       <div id="voter-card-background">
@@ -296,7 +285,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         <div id="Layer15" />
         <div id="Layer8">
-          <QRCode value={epicNo} size={260} />
+          <ReactQRCode value={epicNo} size={260} />
         </div>
 
         <div id="Layer9">

@@ -73,12 +73,6 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           title: "Voter Record Fetched",
           description: `Data for ${data.epicNumber} retrieved from ECI Gateway.`,
         });
-      } else {
-        toast({
-          title: "No Data Found",
-          description: "The API returned an empty response.",
-          variant: "destructive"
-        });
       }
     } catch (error: any) {
       toast({
