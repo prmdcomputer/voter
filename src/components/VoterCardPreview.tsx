@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react';
-import { QRCodeSVG } from 'qrcode.react';
+import QRCode from 'react-qr-code';
 
 interface VoterCardPreviewProps {
   formData: any;
@@ -53,7 +53,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           overflow: visible;
         }
 
-        #background {
+        #voter-card-background {
           left: 0px;
           top: 0px;
           position: relative;
@@ -197,7 +197,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         #Layer9 {
           left: 1403px;
-          top: 85px;
+          top: 135px;
           position: absolute;
           width: 640px;
           height: auto;
@@ -246,13 +246,13 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
             max-width: none; 
             margin: 0;
           }
-          #background {
+          #voter-card-background {
              transform: scale(0.35);
           }
         }
       `}</style>
 
-      <div id="background">
+      <div id="voter-card-background">
         <div id="Layer14" />
         <div id="Layer13">
           <img src={photoUrl} alt="Voter" />
@@ -292,7 +292,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         <div id="Layer15" />
         <div id="Layer8">
-          <QRCodeSVG value={epicNo} size={260} />
+          <QRCode value={epicNo} size={260} />
         </div>
 
         <div id="Layer9">

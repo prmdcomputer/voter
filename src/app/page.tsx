@@ -6,15 +6,18 @@ import { VoterForm } from '@/components/VoterForm';
 import { VoterCardPreview } from '@/components/VoterCardPreview';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { UserCheck, Printer, ArrowLeft, CheckCircle2, ChevronRight, Download } from 'lucide-react';
+import { UserCheck, Printer, ArrowLeft, CheckCircle2, ChevronRight, Download, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export default function VoterFrontPage() {
   const { toast } = useToast();
   const [step, setStep] = useState<'edit' | 'preview'>('edit');
+  const [isDownloading, setIsDownloading] = useState(false);
   const [formData, setFormData] = useState({
     epicNo: '',
     name: '',
@@ -36,6 +39,58 @@ export default function VoterFrontPage() {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleDownloadPDF = async () => {
+    const element = document.getElementById('voter-card-background');
+    if (!element) return;
+
+    setIsDownloading(true);
+    toast({
+      title: "Preparing PDF",
+      description: "Generating high-quality voter ID card...",
+    });
+
+    try {
+      // Capture the element. We use a high scale for better print quality.
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        // Ignore the CSS scale transform for the capture
+        onclone: (clonedDoc) => {
+          const clonedElement = clonedDoc.getElementById('voter-card-background');
+          if (clonedElement) {
+            clonedElement.style.transform = 'none';
+          }
+        }
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.save(`voter-card-${formData.epicNo || 'preview'}.pdf`);
+
+      toast({
+        title: "Download Complete",
+        description: "Your voter ID card has been saved.",
+      });
+    } catch (error) {
+      console.error('PDF Generation Error:', error);
+      toast({
+        title: "Download Failed",
+        description: "Could not generate PDF. Please try again or use the Print option.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const goToPreview = (e?: React.FormEvent) => {
@@ -160,8 +215,8 @@ export default function VoterFrontPage() {
                     <Printer className="w-4 h-4" />
                     Print
                   </Button>
-                  <Button onClick={handlePrint} className="flex-1 sm:flex-none gap-2 bg-primary text-white">
-                    <Download className="w-4 h-4" />
+                  <Button onClick={handleDownloadPDF} disabled={isDownloading} className="flex-1 sm:flex-none gap-2 bg-primary text-white">
+                    {isDownloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
                     Download PDF
                   </Button>
                 </div>
