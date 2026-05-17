@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -23,10 +24,8 @@ export default function VoterFrontPage() {
     dob: '',
     inputMode: 'age', // 'age' or 'dob'
     gender: 'Male',
-    tahshil: '',
     district: '',
     state: '',
-    houseNo: '',
     assemblyConstituency: '',
     assemblyConstituencyLocal: '',
     partNo: '',
@@ -117,7 +116,7 @@ export default function VoterFrontPage() {
               <div className="bg-primary/5 px-8 py-6 border-b flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold text-primary">Step 1: Voter Details</h2>
-                  <p className="text-sm text-muted-foreground">Enter manually or fetch from the ECI Gateway</p>
+                  <p className="text-sm text-muted-foreground">Enter voter information for the card generation</p>
                 </div>
                 <Badge variant="secondary" className="bg-primary/10 text-primary uppercase tracking-widest text-[10px]">
                   Studio Entry Mode
@@ -150,7 +149,7 @@ export default function VoterFrontPage() {
                   </div>
                 </div>
                 
-                <div className="flex justify-center p-8 bg-white rounded-3xl shadow-2xl border border-gray-100 print:p-0 print:bg-transparent print:shadow-none print:border-none overflow-x-auto">
+                <div className="flex justify-center overflow-x-auto print:p-0">
                   <VoterCardPreview formData={formData} />
                 </div>
               </div>
