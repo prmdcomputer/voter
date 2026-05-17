@@ -27,9 +27,6 @@ export default function VoterFrontPage() {
     acNumber: '',
     asmblyName: '',
     asmblyNameLocal: '',
-    partNo: '',
-    partName: '',
-    partNameLocal: '',
     address: '',
     addressLocal: '',
     photoUrl: ''

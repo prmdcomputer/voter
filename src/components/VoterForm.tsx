@@ -65,9 +65,6 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           acNumber: data.acNumber || '',
           asmblyName: data.asmblyName?.toUpperCase() || '',
           asmblyNameLocal: data.asmblyNameL1 || '',
-          partNo: data.partNumber || '',
-          partName: data.psbuildingName?.toUpperCase() || '',
-          partNameLocal: data.psBuildingNameL1 || '',
           address: `${data.psbuildingName}, ${data.districtValue}, ${data.stateName}`.toUpperCase(),
           addressLocal: `${data.psBuildingNameL1}, ${data.districtValueL1}, ${data.stateNameL1}`
         }));
@@ -249,21 +246,6 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         <div className="space-y-2">
           <Label htmlFor="asmblyNameLocal">Assembly Name (Regional)</Label>
           <Input id="asmblyNameLocal" name="asmblyNameLocal" value={formData.asmblyNameLocal || ''} onChange={handleChange} placeholder="बहराइच" />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="space-y-2">
-          <Label htmlFor="partNo">Part No</Label>
-          <Input id="partNo" name="partNo" value={formData.partNo || ''} onChange={handleChange} placeholder="321" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="partName">Part Name (English)</Label>
-          <Input id="partName" name="partName" value={formData.partName || ''} onChange={handleChange} placeholder="PRIMARY SCHOOL" className="uppercase" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="partNameLocal">Part Name (Regional)</Label>
-          <Input id="partNameLocal" name="partNameLocal" value={formData.partNameLocal || ''} onChange={handleChange} placeholder="उच्च प्राथमिक विद्यालय" />
         </div>
       </div>
 
