@@ -36,27 +36,26 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .voter-preview-page {
           background: transparent;
           color: #000;
-          font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+          font-family: 'Noto Sans', Arial, sans-serif;
           width: 1155px;
           margin: 0 auto;
           position: relative;
-          padding-top: 20px;
-          padding-bottom: 20px;
+          padding: 40px 0;
         }
         
         .row { margin: 0 auto; padding: 0; position: relative; width: 1155px; display: flex; justify-content: center; gap: 47px; }
         
         .wrapper-3 { height: 310px; position: relative; width: 492px; border: 1px solid #000; overflow: hidden; }
-        .col-4 { height: 100%; padding: 45px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
+        .col-4 { height: 100%; padding: 35px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
         
         .row-4 { margin: 0 auto; position: relative; width: 450px; display: flex; justify-content: space-between; }
-        .col-13 { margin: 17px 0 0; position: relative; width: 331px; }
+        .col-13 { margin: 35px 0 0; position: relative; width: 331px; } /* Shifted down slightly from 17px */
         .text-3 { margin: 0 0 0 6px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
-        .row-10 { margin: 7px 0 0; position: relative; display: flex; }
+        .row-10 { margin: 12px 0 0; position: relative; display: flex; }
         .bitmap { margin: 4px 12px 0 0; width: 120px; height: 162px; object-fit: cover; border: 1px solid #000; }
-        .col-18 { position: relative; width: 199px; display: flex; flex-direction: column; gap: 4px; }
-        .text-4 { font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: bold; line-height: 1.4; }
-        .text-5 { margin: 3px 0 0 1px; font-size: 13px; font-weight: bold; line-height: 1.4; }
+        .col-18 { position: relative; width: 199px; display: flex; flex-direction: column; gap: 6px; }
+        .text-4 { font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: 500; line-height: 1.4; }
+        .text-5 { margin: 3px 0 0 0; font-size: 13px; font-weight: 500; line-height: 1.4; }
         
         .dynamic-label { font-family: 'Noto Sans', sans-serif; font-size: 11px; font-weight: 600; line-height: 1.2; margin-top: 4px; }
         
@@ -135,7 +134,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
               </div>
               <div className="flex items-center gap-2">
                 <img src="/bitmap_11.png" alt="" width="17" height="16" />
-                <span className="text-17">https://voters.eci.gov.in//</span>
+                <span className="text-17">https://voters.eci.gov.in/</span>
               </div>
             </div>
           </div>
