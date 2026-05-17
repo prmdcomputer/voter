@@ -6,7 +6,7 @@ import { VoterForm } from '@/components/VoterForm';
 import { VoterCardPreview } from '@/components/VoterCardPreview';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { UserCheck, Printer, History, ArrowLeft, CheckCircle2, ChevronRight, Download } from 'lucide-react';
+import { UserCheck, Printer, ArrowLeft, CheckCircle2, ChevronRight, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
@@ -55,7 +55,6 @@ export default function VoterFrontPage() {
     <div className="min-h-screen bg-[#F8FAFC] text-foreground pb-12">
       <Toaster />
       
-      {/* Branding & Stepper (Consolidated) */}
       <div className="no-print container mx-auto px-4 py-8">
         <div className="flex flex-col items-center gap-6 mb-8">
            <div className="flex items-center gap-3">
@@ -82,7 +81,7 @@ export default function VoterFrontPage() {
               step === 'preview' ? "bg-primary text-white shadow-md" : "text-muted-foreground bg-white border"
             )}>
               <div className={cn("w-5 h-5 rounded-full flex items-center justify-center text-[10px]", step === 'preview' ? "bg-white text-primary" : "bg-muted text-muted-foreground")}>2</div>
-              Print & Export
+              Review & Export
             </div>
           </div>
         </div>
@@ -111,38 +110,39 @@ export default function VoterFrontPage() {
                     className="px-12 py-6 text-lg font-bold gap-3 shadow-lg hover:shadow-xl transition-all"
                   >
                     Generate Preview
-                    <ArrowLeft className="w-5 h-5 rotate-180" />
+                    <ChevronRight className="w-5 h-5" />
                   </Button>
                 </div>
               </CardContent>
             </Card>
           </div>
         ) : (
-          <div className="max-w-5xl mx-auto animate-in zoom-in-95 duration-500">
+          <div className="max-w-6xl mx-auto animate-in zoom-in-95 duration-500">
             <div className="flex flex-col gap-8">
-              {/* Action Toolbar (In-Page) */}
-              <div className="no-print flex flex-col sm:flex-row items-center justify-between bg-white p-4 rounded-xl shadow-sm border gap-4">
+              {/* Simplified Action Toolbar */}
+              <div className="no-print flex flex-col sm:flex-row items-center justify-between gap-4 py-2 px-1">
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-6 h-6 text-green-500" />
-                  <h2 className="text-xl font-bold">Ready to Print</h2>
+                  <h2 className="text-xl font-bold text-slate-800">Final Card Design</h2>
                 </div>
                 <div className="flex items-center gap-3 w-full sm:w-auto">
-                  <Button variant="outline" onClick={goToEdit} className="flex-1 sm:flex-none gap-2">
+                  <Button variant="outline" onClick={goToEdit} className="flex-1 sm:flex-none gap-2 bg-white">
                     <ArrowLeft className="w-4 h-4" />
-                    Edit
+                    Back to Edit
                   </Button>
-                  <Button variant="secondary" onClick={handlePrint} className="flex-1 sm:flex-none gap-2">
+                  <Button variant="secondary" onClick={handlePrint} className="flex-1 sm:flex-none gap-2 bg-white border">
                     <Printer className="w-4 h-4" />
                     Print
                   </Button>
-                  <Button onClick={handlePrint} className="flex-1 sm:flex-none gap-2 bg-green-600 hover:bg-green-700 text-white">
+                  <Button onClick={handlePrint} className="flex-1 sm:flex-none gap-2 bg-primary text-white">
                     <Download className="w-4 h-4" />
                     Download PDF
                   </Button>
                 </div>
               </div>
               
-              <div className="flex justify-center overflow-x-auto print:p-0">
+              {/* Clean Preview Area - No Box */}
+              <div className="flex justify-center items-center py-10 overflow-x-auto print:p-0">
                 <VoterCardPreview formData={formData} />
               </div>
             </div>
@@ -151,11 +151,6 @@ export default function VoterFrontPage() {
       </main>
       
       <footer className="no-print container mx-auto px-4 mt-20 text-center text-muted-foreground/60 text-xs">
-        <div className="flex items-center justify-center gap-6 mb-4">
-          <span className="hover:text-primary transition-colors cursor-pointer">Terms</span>
-          <span className="hover:text-primary transition-colors cursor-pointer">Privacy</span>
-          <span className="hover:text-primary transition-colors cursor-pointer">Support</span>
-        </div>
         <p>&copy; 2024 VoterFront Studio. All rights reserved.</p>
       </footer>
     </div>

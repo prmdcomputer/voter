@@ -31,110 +31,112 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
   };
 
   return (
-    <div className="voter-preview-page print:m-0">
+    <div className="voter-preview-container print:m-0">
       <style jsx>{`
-        .voter-preview-page {
+        .voter-preview-container {
           background: transparent;
           color: #000;
           font-family: 'Noto Sans', Arial, sans-serif;
-          width: 1155px;
+          width: 1050px;
           margin: 0 auto;
           position: relative;
-          padding: 40px 0;
         }
         
-        .row { margin: 0 auto; padding: 0; position: relative; width: 1155px; display: flex; justify-content: center; gap: 47px; }
+        .card-row { margin: 0 auto; padding: 0; position: relative; width: 100%; display: flex; justify-content: center; align-items: flex-start; gap: 30px; }
         
-        .wrapper-3 { height: 310px; position: relative; width: 492px; overflow: hidden; }
-        .col-4 { height: 100%; padding: 35px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
+        .front-card-wrapper { height: 310px; position: relative; width: 492px; overflow: hidden; }
+        .front-card { height: 100%; padding: 35px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
         
-        .row-4 { margin: 0 auto; position: relative; width: 450px; display: flex; justify-content: space-between; }
-        .col-13 { margin: 45px 0 0; position: relative; width: 331px; }
-        .text-3 { margin: 0 0 0 6px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
-        .row-10 { margin: 12px 0 0; position: relative; display: flex; }
-        .bitmap { margin: 4px 12px 0 0; width: 120px; height: 162px; object-fit: cover; border: 1px solid #000; }
-        .col-18 { position: relative; width: 199px; display: flex; flex-direction: column; gap: 6px; }
-        .text-4 { font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: 500; line-height: 1.4; }
-        .text-5 { margin: 3px 0 0 0; font-size: 13px; font-weight: 500; line-height: 1.4; }
+        .inner-row { margin: 0 auto; position: relative; width: 450px; display: flex; justify-content: space-between; }
+        .details-col { margin: 55px 0 0; position: relative; width: 331px; }
+        .epic-no { margin: 0 0 10px 6px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
+        .bio-row { margin: 12px 0 0; position: relative; display: flex; }
+        .voter-photo { margin: 4px 12px 0 0; width: 120px; height: 162px; object-fit: cover; border: 1px solid #000; }
+        .voter-data { position: relative; width: 199px; display: flex; flex-direction: column; gap: 6px; }
+        .voter-name { font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: 500; line-height: 1.4; }
+        .relative-name { margin: 3px 0 0 0; font-size: 13px; font-weight: 500; line-height: 1.4; }
         
-        .dynamic-label { font-family: 'Noto Sans', sans-serif; font-size: 11px; font-weight: 600; line-height: 1.2; margin-top: 4px; }
+        .label-text { font-family: 'Noto Sans', sans-serif; font-size: 11px; font-weight: 600; line-height: 1.2; margin-top: 4px; }
         
-        .wrapper-17 { margin: 0 2px 0 0; padding: 0 2px 5px; position: relative; width: 40px; background: url(/bitmap_8.png) no-repeat center bottom; display: flex; align-items: center; }
-        .text-8 { display: block; margin: 0 auto; }
+        .vertical-text-wrapper { margin: 0 2px 0 0; padding: 0 2px 5px; position: relative; width: 40px; background: url(/bitmap_8.png) no-repeat center bottom; display: flex; align-items: center; }
+        .vertical-epic { display: block; margin: 0 auto; }
         
-        .wrapper-4 { height: 310px; position: relative; width: 493px; overflow: hidden; }
-        .col-5 { height: 100%; padding: 15px 0 4px; width: 100%; background: url(/bitmap_2.png) no-repeat; background-size: cover; position: relative; }
-        .row-6 { left: 10px; margin: 0 auto; position: relative; width: 470px; display: flex; gap: 20px; }
-        .col-11 { margin: 4px 0 0; position: relative; width: 142px; display: flex; flex-direction: column; align-items: center; }
-        .path-51-holder { margin: 9px 0 0; padding: 13px 0; position: relative; width: 142px; background: url(/path_51.png) no-repeat; background-size: contain; display: flex; align-items: center; justify-content: center; }
-        .text-11 { margin: 5px 0 0; font-size: 9px; text-align: center; }
-        .col-12 { position: relative; width: 308px; }
-        .text-12 { font-family: 'Noto Sans', sans-serif; font-size: 14px; font-weight: bold; line-height: 1.4; }
-        .text-13 { margin: 53px 0 0; font-family: 'Noto Sans', sans-serif; font-size: 14px; font-weight: bold; line-height: 1.4; }
+        .back-card-wrapper { height: 310px; position: relative; width: 493px; overflow: hidden; }
+        .back-card { height: 100%; padding: 15px 0 4px; width: 100%; background: url(/bitmap_2.png) no-repeat; background-size: cover; position: relative; }
+        .back-inner-row { left: 10px; margin: 0 auto; position: relative; width: 470px; display: flex; gap: 20px; }
+        .qr-col { margin: 4px 0 0; position: relative; width: 142px; display: flex; flex-direction: column; align-items: center; }
+        .qr-holder { margin: 9px 0 0; padding: 13px 0; position: relative; width: 142px; background: url(/path_51.png) no-repeat; background-size: contain; display: flex; align-items: center; justify-content: center; }
+        .qr-caption { margin: 5px 0 0; font-size: 9px; text-align: center; }
+        .address-col { position: relative; width: 308px; }
+        .address-text { font-family: 'Noto Sans', sans-serif; font-size: 14px; font-weight: bold; line-height: 1.4; }
+        .ero-text { margin: 53px 0 0; font-family: 'Noto Sans', sans-serif; font-size: 14px; font-weight: bold; line-height: 1.4; }
         
-        .text-15 { position: absolute; bottom: 50px; left: 44px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 14px; }
-        .row-3 { position: absolute; bottom: 15px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .text-16, .text-17 { font-size: 10px; }
+        .footer-epic { position: absolute; bottom: 50px; left: 44px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 14px; }
+        .footer-row { position: absolute; bottom: 15px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .footer-link { font-size: 10px; }
+
+        .dotted-line { border-left: 2px dotted #CBD5E1; height: 350px; margin: 0 10px; }
 
         @media print {
-          .voter-preview-page { padding: 0; width: 100%; }
+          .voter-preview-container { width: 100%; }
+          .dotted-line { display: none; }
         }
       `}</style>
 
-      <div className="row group">
+      <div className="card-row">
         {/* Front Card */}
-        <div className="wrapper-3">
-          <div className="col-4">
-            <div className="row-4 group">
-              <div className="col-13">
-                <p className="text-3">{formData.epicNo || '...'}</p>
-                <div className="row-10 group">
-                  <img className="bitmap" src={photoUrl} alt="Voter" />
-                  <div className="col-18">
-                    <p className="text-4">नाम: {formData.nameLocal || '...'}<br /><strong>Name: {formData.name || '...'}</strong></p>
-                    <p className="text-5"><strong>{formData.relation === 'Husband' ? 'पति' : 'पिता'} का नाम: {formData.fatherHusbandNameLocal || '...'}</strong><br />{formData.relation}&apos;s Name: {formData.fatherHusbandName || '...'}</p>
+        <div className="front-card-wrapper">
+          <div className="front-card">
+            <div className="inner-row">
+              <div className="details-col">
+                <p className="epic-no">{formData.epicNo || '...'}</p>
+                <div className="bio-row">
+                  <img className="voter-photo" src={photoUrl} alt="Voter" />
+                  <div className="voter-data">
+                    <p className="voter-name">नाम: {formData.nameLocal || '...'}<br /><strong>Name: {formData.name || '...'}</strong></p>
+                    <p className="relative-name"><strong>{formData.relation === 'Husband' ? 'पति' : 'पिता'} का नाम: {formData.fatherHusbandNameLocal || '...'}</strong><br />{formData.relation}&apos;s Name: {formData.fatherHusbandName || '...'}</p>
                     
-                    <div className="dynamic-label">{getGenderText()}</div>
-                    <div className="dynamic-label">जन्मतिथि/ आयु: Date of Birth / Age: {getDobOrAgeText()}</div>
+                    <div className="label-text">{getGenderText()}</div>
+                    <div className="label-text">जन्मतिथि/ आयु: Date of Birth / Age: {getDobOrAgeText()}</div>
                   </div>
                 </div>
               </div>
-              <div className="wrapper-17">
-                <img className="text-8" src="/up_31_153_006339.png" alt="" width="6" height="59" />
+              <div className="vertical-text-wrapper">
+                <img className="vertical-epic" src="/up_31_153_006339.png" alt="" width="6" height="59" />
               </div>
             </div>
           </div>
         </div>
 
-        <img src="/path_7.png" alt="" width="2" height="372" />
+        <div className="dotted-line no-print"></div>
 
         {/* Back Card */}
-        <div className="wrapper-4">
-          <div className="col-5">
-            <div className="row-6 group">
-              <div className="col-11">
+        <div className="back-card-wrapper">
+          <div className="back-card">
+            <div className="back-inner-row">
+              <div className="qr-col">
                 <img src="/bitmap_9.png" alt="Gov" width="60" height="36" />
-                <div className="path-51-holder">
+                <div className="qr-holder">
                   <img src="/path_52.png" alt="QR" width="117" height="117" />
                 </div>
-                <p className="text-11">Scan By VHA/BLO App</p>
+                <p className="qr-caption">Scan By VHA/BLO App</p>
               </div>
-              <div className="col-12">
-                <p className="text-12">पता: {formData.addressLocal || '...'}<br /><strong>Address: {formData.address || '...'}</strong></p>
-                <div className="mt-12">
-                  <p className="text-13">निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '...'}<br /><strong>Electoral Registration Officer, {formData.assemblyConstituency || '...'}</strong></p>
+              <div className="address-col">
+                <p className="address-text">पता: {formData.addressLocal || '...'}<br /><strong>Address: {formData.address || '...'}</strong></p>
+                <div className="ero-section">
+                  <p className="ero-text">निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '...'}<br /><strong>Electoral Registration Officer, {formData.assemblyConstituency || '...'}</strong></p>
                 </div>
               </div>
             </div>
-            <p className="text-15">{formData.epicNo}</p>
-            <div className="row-3 group">
+            <p className="footer-epic">{formData.epicNo}</p>
+            <div className="footer-row">
               <div className="flex items-center gap-2">
                 <img src="/bitmap_10.png" alt="" width="16" height="16" />
-                <span className="text-16">1950</span>
+                <span className="footer-link">1950</span>
               </div>
               <div className="flex items-center gap-2">
                 <img src="/bitmap_11.png" alt="" width="17" height="16" />
-                <span className="text-17">https://voters.eci.gov.in/</span>
+                <span className="footer-link">https://voters.eci.gov.in/</span>
               </div>
             </div>
           </div>
