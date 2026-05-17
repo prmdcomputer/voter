@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -84,6 +85,8 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           assemblyConstituencyLocal: `${data.acNumber}- ${data.asmblyNameL1}`,
           partNo: data.partNumber,
           partName: data.psbuildingName.toUpperCase(),
+          partNameLocal: data.partNameL1,
+          serialNo: data.partSerialNumber?.toString() || '',
           address: `${data.partName}, ${data.districtValue}, ${data.stateName}`.toUpperCase(),
           addressLocal: `${data.partNameL1}, ${data.districtValueL1}, ${data.stateNameL1}`
         }));
@@ -302,7 +305,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           </div>
           <div className="flex items-center gap-2 p-3 bg-blue-50 border border-blue-100 rounded text-[11px] text-blue-700 font-medium">
             <Info className="w-4 h-4 flex-shrink-0" />
-            Note: This uses the real ECI Gateway with provided encrypted credentials.
+            Note: Regional scripts will appear on the final card layout.
           </div>
         </div>
       </div>
@@ -331,7 +334,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div className="space-y-2">
           <Label htmlFor="district">District</Label>
           <Input id="district" name="district" value={formData.district} onChange={handleChange} className="uppercase" />
@@ -347,6 +350,10 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         <div className="space-y-2">
           <Label htmlFor="partName">Part Name</Label>
           <Input id="partName" name="partName" value={formData.partName} onChange={handleChange} className="uppercase" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="serialNo">Serial No</Label>
+          <Input id="serialNo" name="serialNo" value={formData.serialNo} onChange={handleChange} />
         </div>
       </div>
     </div>
