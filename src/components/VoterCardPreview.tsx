@@ -41,6 +41,8 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
   const assemblyTextHindi = `${formData.acNumber || '286'} - ${formData.asmblyNameLocal || 'बहराइच'}`;
   const assemblyTextEnglish = `${formData.acNumber || '286'} - ${formData.asmblyName || 'Bahraich'}`;
 
+  const epicNo = formData.epicNo || 'UP/31/153/0063398';
+
   return (
     <div className="voter-preview-wrapper print:m-0">
       <style jsx>{`
@@ -256,7 +258,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           <img src={photoUrl} alt="Voter" />
         </div>
 
-        <div id="Layer5">{formData.epicNo || 'UP/31/153/0063398'}</div>
+        <div id="Layer5">{epicNo}</div>
 
         <div id="Layer2">
           <span className="name-hindi">नाम: {formData.nameLocal || 'सीतापती'}</span>
@@ -286,11 +288,11 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           <img src={photoUrl} alt="Ghost" />
         </div>
 
-        <div id="Layer7">{formData.epicNo || 'UP/31/153/0063398'}</div>
+        <div id="Layer7">{epicNo}</div>
 
         <div id="Layer15" />
         <div id="Layer8">
-          <QRCodeSVG value={formData.epicNo || 'UP/31/153/0063398'} size={260} />
+          <QRCodeSVG value={epicNo} size={260} />
         </div>
 
         <div id="Layer9">
@@ -304,7 +306,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         </div>
 
         <div className="epic-bottom">
-          {formData.epicNo || 'UP/31/153/0063398'}
+          {epicNo}
         </div>
       </div>
     </div>

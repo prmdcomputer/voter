@@ -96,7 +96,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-4">
           <Label className="text-sm font-semibold flex items-center gap-2">
-            Voter Photograph
+            Voter Photograph <span className="text-destructive">*</span>
           </Label>
           <ImageUpload 
             currentUrl={formData.photoUrl || ''} 
@@ -107,7 +107,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         <div className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="epicNo" className="flex items-center gap-2">
-              Epic Number 
+              Epic Number <span className="text-destructive">*</span>
               <span className="text-[10px] text-muted-foreground font-normal tracking-wide">(Direct Gateway Fetch)</span>
             </Label>
             <div className="flex gap-2">
@@ -118,12 +118,14 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
                 onChange={handleChange}
                 placeholder="EPIC NO."
                 className="uppercase font-bold tracking-widest border-primary/20 flex-1"
+                required
               />
               <Button 
                 variant="secondary" 
                 onClick={handleFetchVoterDetails} 
                 disabled={isFetching}
                 className="shrink-0 gap-2 font-bold px-6"
+                type="button"
               >
                 {isFetching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                 FETCH
@@ -133,7 +135,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2 col-span-2">
-              <Label>Age / DOB Input Mode</Label>
+              <Label>Age / DOB Input Mode <span className="text-destructive">*</span></Label>
               <Tabs 
                 value={formData.inputMode || 'age'} 
                 onValueChange={(val) => setFormData((prev: any) => ({ ...prev, inputMode: val }))}
@@ -154,18 +156,19 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
             {formData.inputMode === 'dob' ? (
               <div className="space-y-2 col-span-2">
-                <Label htmlFor="dob">Date of Birth</Label>
+                <Label htmlFor="dob">Date of Birth <span className="text-destructive">*</span></Label>
                 <Input 
                   id="dob" 
                   name="dob" 
                   type="date" 
                   value={formData.dob || ''} 
                   onChange={handleChange} 
+                  required
                 />
               </div>
             ) : (
               <div className="space-y-2 col-span-2">
-                <Label htmlFor="age">Age</Label>
+                <Label htmlFor="age">Age <span className="text-destructive">*</span></Label>
                 <Input 
                   id="age" 
                   name="age" 
@@ -173,14 +176,15 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
                   value={formData.age || ''} 
                   onChange={handleChange} 
                   placeholder="e.g. 26"
+                  required
                 />
               </div>
             )}
 
             <div className="space-y-2 col-span-2">
-              <Label htmlFor="gender">Gender</Label>
+              <Label htmlFor="gender">Gender <span className="text-destructive">*</span></Label>
               <Select onValueChange={(val) => setFormData((prev: any) => ({ ...prev, gender: val }))} value={formData.gender || 'Male'}>
-                <SelectTrigger>
+                <SelectTrigger id="gender">
                   <SelectValue placeholder="Gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -198,20 +202,20 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="name">Full Name (English)</Label>
-          <Input id="name" name="name" value={formData.name || ''} onChange={handleChange} placeholder="JOHN DOE" className="uppercase font-medium" />
+          <Label htmlFor="name">Full Name (English) <span className="text-destructive">*</span></Label>
+          <Input id="name" name="name" value={formData.name || ''} onChange={handleChange} placeholder="JOHN DOE" className="uppercase font-medium" required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="nameLocal">Name (Regional Script)</Label>
-          <Input id="nameLocal" name="nameLocal" value={formData.nameLocal || ''} onChange={handleChange} placeholder="क्षेत्रीय लिपि में नाम" />
+          <Label htmlFor="nameLocal">Name (Regional Script) <span className="text-destructive">*</span></Label>
+          <Input id="nameLocal" name="nameLocal" value={formData.nameLocal || ''} onChange={handleChange} placeholder="क्षेत्रीय लिपि में नाम" required />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="relation">Relation</Label>
+          <Label htmlFor="relation">Relation <span className="text-destructive">*</span></Label>
           <Select onValueChange={(val) => setFormData((prev: any) => ({ ...prev, relation: val }))} value={formData.relation || 'Father'}>
-            <SelectTrigger>
+            <SelectTrigger id="relation">
               <SelectValue placeholder="Relation" />
             </SelectTrigger>
             <SelectContent>
@@ -223,12 +227,12 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           </Select>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="fatherHusbandName">Relative Name (English)</Label>
-          <Input id="fatherHusbandName" name="fatherHusbandName" value={formData.fatherHusbandName || ''} onChange={handleChange} className="uppercase font-medium" />
+          <Label htmlFor="fatherHusbandName">Relative Name (English) <span className="text-destructive">*</span></Label>
+          <Input id="fatherHusbandName" name="fatherHusbandName" value={formData.fatherHusbandName || ''} onChange={handleChange} className="uppercase font-medium" required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="fatherHusbandNameLocal">Relative Name (Regional)</Label>
-          <Input id="fatherHusbandNameLocal" name="fatherHusbandNameLocal" value={formData.fatherHusbandNameLocal || ''} onChange={handleChange} />
+          <Label htmlFor="fatherHusbandNameLocal">Relative Name (Regional) <span className="text-destructive">*</span></Label>
+          <Input id="fatherHusbandNameLocal" name="fatherHusbandNameLocal" value={formData.fatherHusbandNameLocal || ''} onChange={handleChange} required />
         </div>
       </div>
 
@@ -236,16 +240,16 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="acNumber">Assembly No</Label>
-          <Input id="acNumber" name="acNumber" value={formData.acNumber || ''} onChange={handleChange} placeholder="286" />
+          <Label htmlFor="acNumber">Assembly No <span className="text-destructive">*</span></Label>
+          <Input id="acNumber" name="acNumber" value={formData.acNumber || ''} onChange={handleChange} placeholder="286" required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="asmblyName">Assembly Name (English)</Label>
-          <Input id="asmblyName" name="asmblyName" value={formData.asmblyName || ''} onChange={handleChange} placeholder="BAHRAICH" className="uppercase" />
+          <Label htmlFor="asmblyName">Assembly Name (English) <span className="text-destructive">*</span></Label>
+          <Input id="asmblyName" name="asmblyName" value={formData.asmblyName || ''} onChange={handleChange} placeholder="BAHRAICH" className="uppercase" required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="asmblyNameLocal">Assembly Name (Regional)</Label>
-          <Input id="asmblyNameLocal" name="asmblyNameLocal" value={formData.asmblyNameLocal || ''} onChange={handleChange} placeholder="बहराइच" />
+          <Label htmlFor="asmblyNameLocal">Assembly Name (Regional) <span className="text-destructive">*</span></Label>
+          <Input id="asmblyNameLocal" name="asmblyNameLocal" value={formData.asmblyNameLocal || ''} onChange={handleChange} placeholder="बहराइच" required />
         </div>
       </div>
 
@@ -253,7 +257,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="address">Address (English)</Label>
+          <Label htmlFor="address">Address (English) <span className="text-destructive">*</span></Label>
           <Textarea 
             id="address" 
             name="address" 
@@ -261,16 +265,18 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
             onChange={handleChange} 
             rows={2}
             className="uppercase"
+            required
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="addressLocal">Address (Regional Script)</Label>
+          <Label htmlFor="addressLocal">Address (Regional Script) <span className="text-destructive">*</span></Label>
           <Textarea 
             id="addressLocal" 
             name="addressLocal" 
             value={formData.addressLocal || ''} 
             onChange={handleChange} 
             rows={2}
+            required
           />
         </div>
       </div>

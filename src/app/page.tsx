@@ -10,8 +10,10 @@ import { UserCheck, Printer, ArrowLeft, CheckCircle2, ChevronRight, Download } f
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
 
 export default function VoterFrontPage() {
+  const { toast } = useToast();
   const [step, setStep] = useState<'edit' | 'preview'>('edit');
   const [formData, setFormData] = useState({
     epicNo: '',
@@ -36,7 +38,35 @@ export default function VoterFrontPage() {
     window.print();
   };
 
-  const goToPreview = () => {
+  const goToPreview = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+
+    // Basic validation check
+    const requiredFields = [
+      'epicNo', 'name', 'nameLocal', 'fatherHusbandName', 'fatherHusbandNameLocal', 
+      'acNumber', 'asmblyName', 'asmblyNameLocal', 'address', 'addressLocal'
+    ];
+
+    const missingFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
+    
+    if (missingFields.length > 0) {
+      toast({
+        title: "Incomplete Information",
+        description: "Please fill in all required fields marked with *.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.photoUrl) {
+      toast({
+        title: "Photo Required",
+        description: "Please upload a voter photograph.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setStep('preview');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -85,31 +115,33 @@ export default function VoterFrontPage() {
       <main className="container mx-auto px-4">
         {step === 'edit' ? (
           <div className="max-w-4xl mx-auto no-print animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <Card className="border-none shadow-xl bg-white overflow-hidden">
-              <div className="bg-primary/5 px-8 py-6 border-b flex items-center justify-between">
-                <div>
-                  <h2 className="text-xl font-bold text-primary">Voter Details</h2>
-                  <p className="text-sm text-muted-foreground">Enter voter information to generate the card</p>
+            <form onSubmit={goToPreview}>
+              <Card className="border-none shadow-xl bg-white overflow-hidden">
+                <div className="bg-primary/5 px-8 py-6 border-b flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xl font-bold text-primary">Voter Details</h2>
+                    <p className="text-sm text-muted-foreground">Enter voter information to generate the card</p>
+                  </div>
+                  <Badge variant="secondary" className="bg-primary/10 text-primary uppercase tracking-widest text-[10px]">
+                    Studio Entry
+                  </Badge>
                 </div>
-                <Badge variant="secondary" className="bg-primary/10 text-primary uppercase tracking-widest text-[10px]">
-                  Studio Entry
-                </Badge>
-              </div>
-              <CardContent className="p-8">
-                <VoterForm formData={formData} setFormData={setFormData} />
-                
-                <div className="mt-12 flex justify-end border-t pt-8">
-                  <Button 
-                    size="lg" 
-                    onClick={goToPreview} 
-                    className="px-12 py-6 text-lg font-bold gap-3 shadow-lg hover:shadow-xl transition-all"
-                  >
-                    Generate Preview
-                    <ChevronRight className="w-5 h-5" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                <CardContent className="p-8">
+                  <VoterForm formData={formData} setFormData={setFormData} />
+                  
+                  <div className="mt-12 flex justify-end border-t pt-8">
+                    <Button 
+                      type="submit"
+                      size="lg" 
+                      className="px-12 py-6 text-lg font-bold gap-3 shadow-lg hover:shadow-xl transition-all"
+                    >
+                      Generate Preview
+                      <ChevronRight className="w-5 h-5" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </form>
           </div>
         ) : (
           <div className="max-w-6xl mx-auto animate-in zoom-in-95 duration-500">
