@@ -5,7 +5,7 @@ import { VoterForm } from '@/components/VoterForm';
 import { VoterCardPreview } from '@/components/VoterCardPreview';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { UserCheck, Printer, FileDown, History, ArrowLeft, CheckCircle2, ChevronRight } from 'lucide-react';
+import { UserCheck, Printer, History, ArrowLeft, CheckCircle2, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -33,7 +33,6 @@ export default function VoterFrontPage() {
     serialNo: '',
     address: '',
     addressLocal: '',
-    targetLanguage: 'Hindi',
     photoUrl: ''
   });
 
@@ -140,7 +139,6 @@ export default function VoterFrontPage() {
         ) : (
           <div className="max-w-5xl mx-auto animate-in zoom-in-95 duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-              {/* Preview Display */}
               <div className="lg:col-span-12 flex flex-col gap-8">
                 <div className="no-print flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
@@ -158,7 +156,6 @@ export default function VoterFrontPage() {
         )}
       </main>
       
-      {/* Footer Info */}
       <footer className="no-print container mx-auto px-4 mt-20 text-center text-muted-foreground/60 text-xs">
         <div className="flex items-center justify-center gap-6 mb-4">
           <span className="hover:text-primary transition-colors cursor-pointer">Terms of Service</span>

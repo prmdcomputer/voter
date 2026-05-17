@@ -8,9 +8,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { ImageUpload } from '@/components/ImageUpload';
 import { Separator } from '@/components/ui/separator';
-import { translateVoterDetailsToLocalLanguage } from '@/ai/flows/translate-voter-details-to-local-language';
 import { fetchVoterFromECI } from '@/app/actions/eci-api';
-import { Languages, Wand2, Loader2, Info, Search } from 'lucide-react';
+import { Loader2, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface VoterFormProps {
@@ -20,28 +19,11 @@ interface VoterFormProps {
 
 export function VoterForm({ formData, setFormData }: VoterFormProps) {
   const { toast } = useToast();
-  const [isTranslating, setIsTranslating] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev: any) => ({ ...prev, [name]: value }));
-  };
-
-  const handleLanguageChange = (val: string) => {
-    const langMap: Record<string, string> = {
-      'HI': 'Hindi',
-      'PA': 'Punjabi',
-      'GU': 'Gujarati',
-      'MR': 'Marathi',
-      'TA': 'Tamil',
-      'KN': 'Kannada',
-      'BN': 'Bengali',
-      'TE': 'Telugu',
-      'SD': 'Sindhi',
-      'OR': 'Oriya'
-    };
-    setFormData((prev: any) => ({ ...prev, targetLanguage: langMap[val] || 'Hindi' }));
   };
 
   const handleFetchVoterDetails = async () => {
@@ -109,45 +91,6 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
       });
     } finally {
       setIsFetching(false);
-    }
-  };
-
-  const handleAutoTranslate = async () => {
-    if (!formData.name || !formData.fatherHusbandName || !formData.address) {
-      toast({
-        title: "Fields Required",
-        description: "Fill basic details before generating regional script.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsTranslating(true);
-    try {
-      const result = await translateVoterDetailsToLocalLanguage({
-        name: formData.name,
-        fatherHusbandName: formData.fatherHusbandName,
-        address: formData.address,
-        targetLanguage: formData.targetLanguage
-      });
-
-      setFormData((prev: any) => ({
-        ...prev,
-        nameLocal: result.nameLocal,
-        fatherHusbandNameLocal: result.fatherHusbandNameLocal,
-        addressLocal: result.addressLocal
-      }));
-      
-      toast({
-        title: "Translation Ready",
-      });
-    } catch (error) {
-      toast({
-        title: "Translation Failed",
-        variant: "destructive"
-      });
-    } finally {
-      setIsTranslating(false);
     }
   };
 
@@ -252,60 +195,28 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
 
       <Separator />
 
-      <div className="bg-muted/30 p-4 rounded-lg space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Languages className="w-5 h-5 text-primary" />
-            <h3 className="font-semibold text-sm">Regional Script Studio</h3>
-          </div>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="h-8 gap-2 bg-white"
-            onClick={handleAutoTranslate}
-            disabled={isTranslating}
-          >
-            {isTranslating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3 text-accent" />}
-            {isTranslating ? 'Processing...' : 'Auto-Translate'}
-          </Button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <Label htmlFor="assemblyConstituency">Assembly No & Name (English)</Label>
+          <Input id="assemblyConstituency" name="assemblyConstituency" value={formData.assemblyConstituency || ''} onChange={handleChange} placeholder="286-Bahraich" className="uppercase" />
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="targetLanguage">Target Local Language</Label>
-            <Select onValueChange={handleLanguageChange} value={Object.entries({
-              'Hindi': 'HI',
-              'Punjabi': 'PA',
-              'Gujarati': 'GU',
-              'Marathi': 'MR',
-              'Tamil': 'TA',
-              'Kannada': 'KN',
-              'Bengali': 'BN',
-              'Telugu': 'TE',
-              'Sindhi': 'SD',
-              'Oriya': 'OR'
-            }).find(([k]) => k === formData.targetLanguage)?.[1] || 'HI'}>
-              <SelectTrigger id="targetLanguage">
-                <SelectValue placeholder="Select Language" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="HI">Hindi</SelectItem>
-                <SelectItem value="PA">Punjabi</SelectItem>
-                <SelectItem value="GU">Gujarati</SelectItem>
-                <SelectItem value="MR">Marathi</SelectItem>
-                <SelectItem value="TA">Tamil</SelectItem>
-                <SelectItem value="KN">Kannada</SelectItem>
-                <SelectItem value="BN">Bengali</SelectItem>
-                <SelectItem value="TE">Telugu</SelectItem>
-                <SelectItem value="SD">Sindhi</SelectItem>
-                <SelectItem value="OR">Oriya</SelectItem>
-              </SelectContent>
-            </Select>
+        <div className="space-y-2">
+          <Label htmlFor="assemblyConstituencyLocal">Assembly No & Name (Regional Script)</Label>
+          <Input id="assemblyConstituencyLocal" name="assemblyConstituencyLocal" value={formData.assemblyConstituencyLocal || ''} onChange={handleChange} placeholder="286 - बहराइच" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <Label htmlFor="partNo">Part No & Name (English)</Label>
+          <div className="flex gap-2">
+            <Input id="partNo" name="partNo" value={formData.partNo || ''} onChange={handleChange} placeholder="321" className="w-20" />
+            <Input id="partName" name="partName" value={formData.partName || ''} onChange={handleChange} placeholder="PRIMARY SCHOOL" className="flex-1 uppercase" />
           </div>
-          <div className="flex items-center gap-2 p-3 bg-blue-50 border border-blue-100 rounded text-[11px] text-blue-700 font-medium">
-            <Info className="w-4 h-4 flex-shrink-0" />
-            Note: Regional scripts will appear on the final card layout.
-          </div>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="partNameLocal">Part No & Name (Regional Script)</Label>
+          <Input id="partNameLocal" name="partNameLocal" value={formData.partNameLocal || ''} onChange={handleChange} placeholder="भाग संख्या और नाम क्षेत्रीय में" />
         </div>
       </div>
 
@@ -333,7 +244,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="space-y-2">
           <Label htmlFor="district">District</Label>
           <Input id="district" name="district" value={formData.district || ''} onChange={handleChange} className="uppercase" />
@@ -341,14 +252,6 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         <div className="space-y-2">
           <Label htmlFor="state">State</Label>
           <Input id="state" name="state" value={formData.state || ''} onChange={handleChange} className="uppercase" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="partNo">Part No</Label>
-          <Input id="partNo" name="partNo" value={formData.partNo || ''} onChange={handleChange} />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="partName">Part Name</Label>
-          <Input id="partName" name="partName" value={formData.partName || ''} onChange={handleChange} className="uppercase" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="serialNo">Serial No</Label>
