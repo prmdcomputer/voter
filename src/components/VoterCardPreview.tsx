@@ -11,9 +11,9 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
   const photoUrl = formData.photoUrl || '/bitmap_7.jpg';
   
   const getGenderText = () => {
-    if (formData.gender === 'Female') return 'लिंग / Gender: महिला / Female';
-    if (formData.gender === 'Male') return 'लिंग / Gender: पुरुष / Male';
-    return 'लिंग / Gender: अन्य / Other';
+    const hindi = formData.gender === 'Female' ? 'महिला' : formData.gender === 'Male' ? 'पुरुष' : 'अन्य';
+    const english = formData.gender === 'Female' ? 'Female' : formData.gender === 'Male' ? 'Male' : 'Other';
+    return `लिंग / Gender: ${hindi} / ${english}`;
   };
 
   const getDobOrAgeText = () => {
@@ -45,11 +45,11 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         
         .row { margin: 0 auto; padding: 0; position: relative; width: 1155px; display: flex; justify-content: center; gap: 47px; }
         
-        .wrapper-3 { height: 310px; position: relative; width: 492px; border: 1px solid #000; overflow: hidden; }
+        .wrapper-3 { height: 310px; position: relative; width: 492px; overflow: hidden; }
         .col-4 { height: 100%; padding: 35px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
         
         .row-4 { margin: 0 auto; position: relative; width: 450px; display: flex; justify-content: space-between; }
-        .col-13 { margin: 35px 0 0; position: relative; width: 331px; } /* Shifted down slightly from 17px */
+        .col-13 { margin: 45px 0 0; position: relative; width: 331px; }
         .text-3 { margin: 0 0 0 6px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
         .row-10 { margin: 12px 0 0; position: relative; display: flex; }
         .bitmap { margin: 4px 12px 0 0; width: 120px; height: 162px; object-fit: cover; border: 1px solid #000; }
@@ -62,7 +62,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .wrapper-17 { margin: 0 2px 0 0; padding: 0 2px 5px; position: relative; width: 40px; background: url(/bitmap_8.png) no-repeat center bottom; display: flex; align-items: center; }
         .text-8 { display: block; margin: 0 auto; }
         
-        .wrapper-4 { height: 310px; position: relative; width: 493px; border: 1px solid #000; overflow: hidden; }
+        .wrapper-4 { height: 310px; position: relative; width: 493px; overflow: hidden; }
         .col-5 { height: 100%; padding: 15px 0 4px; width: 100%; background: url(/bitmap_2.png) no-repeat; background-size: cover; position: relative; }
         .row-6 { left: 10px; margin: 0 auto; position: relative; width: 470px; display: flex; gap: 20px; }
         .col-11 { margin: 4px 0 0; position: relative; width: 142px; display: flex; flex-direction: column; align-items: center; }

@@ -6,7 +6,7 @@ import { VoterForm } from '@/components/VoterForm';
 import { VoterCardPreview } from '@/components/VoterCardPreview';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { UserCheck, Printer, History, ArrowLeft, CheckCircle2, ChevronRight } from 'lucide-react';
+import { UserCheck, Printer, History, ArrowLeft, CheckCircle2, ChevronRight, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
@@ -73,9 +73,13 @@ export default function VoterFrontPage() {
                 <ArrowLeft className="w-4 h-4" />
                 Edit Details
               </Button>
-              <Button onClick={handlePrint} className="items-center gap-2 bg-accent hover:bg-accent/90">
+              <Button onClick={handlePrint} variant="secondary" className="items-center gap-2">
                 <Printer className="w-4 h-4" />
-                Print PVC Card
+                Print
+              </Button>
+              <Button onClick={handlePrint} className="items-center gap-2 bg-green-600 hover:bg-green-700 text-white">
+                <Download className="w-4 h-4" />
+                Download PDF
               </Button>
             </>
           )}
