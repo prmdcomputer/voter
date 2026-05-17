@@ -70,8 +70,8 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         
         /* CARD BASE */
         .card-wrapper { 
-          height: 320px; 
-          width: 500px; 
+          height: 310px; 
+          width: 490px; 
           position: relative; 
           background: #fff; 
           border: 1px solid #000;
@@ -94,7 +94,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         /* FRONT CARD ELEMENTS */
         .header {
           position: absolute;
-          top: 5px;
+          top: 8px;
           left: 0;
           right: 0;
           display: flex;
@@ -103,28 +103,29 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           padding: 0 15px;
           z-index: 10;
         }
-        .eci-logo { width: 35px; height: 35px; object-fit: contain; }
+        .eci-logo { width: 32px; height: 32px; object-fit: contain; }
         .header-text { text-align: center; flex: 1; }
-        .header-hindi { font-weight: 800; font-size: 16px; margin-bottom: -4px; }
-        .header-english { font-weight: 800; font-size: 14px; border-top: 1.5px solid #000; padding-top: 2px; }
-        .tricolor-logo { width: 40px; height: 30px; object-fit: contain; }
+        .header-hindi { font-weight: 800; font-size: 15px; margin-bottom: -4px; line-height: 1.2; }
+        .header-english { font-weight: 800; font-size: 13px; border-top: 1.2px solid #000; padding-top: 1px; margin-top: 2px; }
+        .tricolor-logo { width: 35px; height: 28px; object-fit: contain; }
 
         .epic-no-display {
           position: absolute;
-          top: 65px;
-          left: 20px;
+          top: 62px;
+          left: 18px;
           color: #800000;
           font-weight: 900;
-          font-size: 17px;
+          font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+          font-size: 16px;
           z-index: 10;
         }
 
         .main-photo-box {
           position: absolute;
-          top: 95px;
-          left: 20px;
-          width: 115px;
-          height: 145px;
+          top: 88px;
+          left: 18px;
+          width: 110px;
+          height: 138px;
           border: 1px solid #000;
           background: #fff;
           z-index: 10;
@@ -133,14 +134,14 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         .info-data-box {
           position: absolute;
-          top: 95px;
-          left: 145px;
+          top: 88px;
+          left: 140px;
           z-index: 10;
-          font-size: 12px;
-          line-height: 1.3;
-          width: 280px;
+          font-size: 13px;
+          line-height: 1.35;
+          width: 320px;
         }
-        .data-row { margin-bottom: 4px; }
+        .data-row { margin-bottom: 5px; }
         .data-label-hindi { display: block; font-weight: 700; color: #333; }
         .data-label-eng { font-weight: 700; color: #000; }
         .data-value { font-weight: 500; }
@@ -149,15 +150,15 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           position: absolute;
           bottom: 35px;
           right: 35px;
-          width: 45px;
-          height: 55px;
+          width: 42px;
+          height: 52px;
           border: 0.5px solid #ccc;
           filter: grayscale(100%) opacity(0.6);
           z-index: 5;
         }
         .vertical-epic {
           position: absolute;
-          right: 15px;
+          right: 12px;
           top: 100px;
           writing-mode: vertical-rl;
           font-size: 7px;
@@ -174,35 +175,35 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           border-top: 1px solid #ddd;
           text-align: center;
           padding: 4px 0;
-          font-size: 10px;
-          font-weight: 600;
+          font-size: 9.5px;
+          font-weight: 700;
           z-index: 10;
         }
 
         /* BACK CARD ELEMENTS */
         .back-qr-container {
           position: absolute;
-          top: 45px;
-          left: 25px;
+          top: 40px;
+          left: 20px;
           text-align: center;
           z-index: 10;
         }
-        .qr-box { padding: 5px; background: #fff; border: 1px solid #eee; }
-        .qr-caption { font-size: 8px; margin-top: 4px; color: #800000; font-weight: 700; }
-        .back-epic-label { font-weight: 800; font-size: 13px; margin-top: 5px; }
+        .qr-box { padding: 4px; background: #fff; border: 1px solid #eee; }
+        .qr-caption { font-size: 8px; margin-top: 4px; color: #800000; font-weight: 800; }
+        .back-epic-label { font-weight: 800; font-size: 12.5px; margin-top: 5px; }
 
         .back-details-container {
           position: absolute;
-          top: 20px;
-          left: 185px;
-          width: 290px;
+          top: 18px;
+          left: 175px;
+          width: 295px;
           z-index: 10;
-          font-size: 11.5px;
-          line-height: 1.35;
+          font-size: 11px;
+          line-height: 1.4;
         }
-        .address-box { margin-bottom: 25px; }
-        .ero-box { margin-bottom: 15px; }
-        .download-date { font-weight: 700; font-size: 13px; }
+        .address-box { margin-bottom: 22px; }
+        .ero-box { margin-bottom: 12px; }
+        .download-date { font-weight: 800; font-size: 13px; margin-top: 5px; }
 
         .back-footer {
           position: absolute;
@@ -224,12 +225,12 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           bottom: 2px;
           left: 10px;
           right: 10px;
-          height: 2px;
+          height: 2.5px;
           background: #e11d48;
           z-index: 11;
         }
 
-        .divider { width: 1px; border-left: 2px dashed #CBD5E1; height: 320px; }
+        .divider { width: 1px; border-left: 2px dashed #CBD5E1; height: 310px; }
 
         @media print {
           .divider { display: none; }
@@ -263,12 +264,12 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
             <div className="data-row">
               <span className="data-label-hindi">नाम: {formData.nameLocal || 'सीतापती'}</span>
               <span className="data-label-eng">Name: </span>
-              <span className="data-value">{formData.name || 'Sitapti'}</span>
+              <span className="data-value">{formData.name || 'SITAPTI'}</span>
             </div>
             <div className="data-row">
               <span className="data-label-hindi">{relationLabelHindi}: {formData.fatherHusbandNameLocal || 'रामनरायन'}</span>
               <span className="data-label-eng">{relationLabelEnglish}: </span>
-              <span className="data-value">{formData.fatherHusbandName || 'Ramnarayan'}</span>
+              <span className="data-value">{formData.fatherHusbandName || 'RAMNARAYAN'}</span>
             </div>
             <div className="data-row">
               <span className="data-label-eng">लिंग / Gender: </span>
@@ -299,7 +300,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           
           <div className="back-qr-container">
             <div className="qr-box">
-              <QRCodeSVG value={formData.epicNo || 'UP/31/153/0063398'} size={110} />
+              <QRCodeSVG value={formData.epicNo || 'UP/31/153/0063398'} size={105} />
             </div>
             <div className="qr-caption">Scan By VHA/BLO App</div>
             <div className="back-epic-label">{formData.epicNo || 'UP/31/153/0063398'}</div>
@@ -307,13 +308,13 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
           <div className="back-details-container">
             <div className="address-box">
-              <div>पता: {formData.addressLocal || '65, त्रिकोलिया-२, त्रिकोलिया, पयागपुर, बहराइच, उत्तर प्रदेश - 271871'}</div>
-              <div><span className="data-label-eng">Address: </span>{formData.address || '65, TRIKOLIYA-2, TRIKOLIYA, PAYAGPUR, BAHRAICH, UTTAR PRADESH - 271871'}</div>
+              <div className="font-bold">पता: {formData.addressLocal || '65, त्रिकोलिया-२, त्रिकोलिया, पयागपुर, बहराइच, उत्तर प्रदेश - 271871'}</div>
+              <div className="mt-1"><span className="data-label-eng">Address: </span>{formData.address || '65, TRIKOLIYA-2, TRIKOLIYA, PAYAGPUR, BAHRAICH, UTTAR PRADESH - 271871'}</div>
             </div>
 
             <div className="ero-box">
-              <div>निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '286 - बहराइच'}</div>
-              <div><span className="data-label-eng">Electoral Registration Officer, </span>{formData.assemblyConstituency || '286 - Bahraich'}</div>
+              <div className="font-bold">निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '286 - बहराइच'}</div>
+              <div className="mt-0.5"><span className="data-label-eng">Electoral Registration Officer, </span>{formData.assemblyConstituency || '286 - Bahraich'}</div>
             </div>
 
             <div className="download-date">
