@@ -10,6 +10,12 @@ interface VoterCardPreviewProps {
 export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
   const photoUrl = formData.photoUrl || '/bitmap_7.jpg';
   
+  const getGenderText = () => {
+    if (formData.gender === 'Male') return 'लिंग/Gender : पुरुष/ Male';
+    if (formData.gender === 'Female') return 'लिंग/Gender : महिला/ Female';
+    return 'लिंग/Gender : अन्य/ Other';
+  };
+
   return (
     <div className="voter-preview-page print:m-0">
       <style jsx>{`
@@ -26,8 +32,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .l-unconstrained { position: relative; }
         .l-constrained { margin: 0 auto; position: relative; width: 1155px; }
         
-        /* Removed path-2 styles */
-
         .path-8 {
           height: 1px;
           margin: 24px auto 0;
@@ -42,8 +46,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .wrapper-3 { height: 310px; position: relative; width: 492px; margin-top: 31px; border: 1px solid #000; }
         .col-4 { height: 100%; padding: 19px 18px 1px; width: 100%; background: url(/bitmap.jpg) no-repeat; background-size: cover; position: relative; }
         
-        /* Removed path-42 styles */
-        
         .row-4 { margin: 20px auto 0; position: relative; width: 450px; display: flex; justify-content: space-between; }
         .col-13 { margin: 17px 0 0; position: relative; width: 331px; }
         .text-3 { margin: 0 0 0 6px; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 16px; font-weight: bold; }
@@ -52,6 +54,8 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .col-18 { position: relative; width: 199px; display: flex; flex-direction: column; gap: 4px; }
         .text-4 { font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: bold; line-height: 1.4; }
         .text-5 { margin: 3px 0 0 1px; font-size: 13px; font-weight: bold; line-height: 1.4; }
+        
+        .dynamic-label { font-family: 'Noto Sans', sans-serif; font-size: 11px; font-weight: 600; line-height: 1.2; margin-top: 4px; }
         
         .wrapper-17 { margin: 0 2px 0 0; padding: 0 2px 5px; position: relative; width: 40px; background: url(/bitmap_8.png) no-repeat center bottom; display: flex; align-items: center; }
         .text-8 { display: block; margin: 0 auto; }
@@ -93,7 +97,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
       <div className="l-unconstrained">
         <div className="l-constrained">
-          {/* Header Lines Removed */}
         </div>
       </div>
 
@@ -103,7 +106,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         {/* Front Card */}
         <div className="wrapper-3">
           <div className="col-4">
-            {/* path-42 removed */}
             <div className="row-4 group">
               <div className="col-13">
                 <p className="text-3">{formData.epicNo || 'UP/31/153/0000000'}</p>
@@ -112,8 +114,9 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
                   <div className="col-18">
                     <p className="text-4">नाम: {formData.nameLocal || '...'}<br /><strong>Name: {formData.name || '...'}</strong></p>
                     <p className="text-5"><strong>{formData.relation === 'Husband' ? 'पति' : 'पिता'} का नाम: {formData.fatherHusbandNameLocal || '...'}</strong><br />{formData.relation}&apos;s Name: {formData.fatherHusbandName || '...'}</p>
-                    <img className="mt-2" src="/gender_female.png" alt="Gender" width="180" height="14" />
-                    <img className="mt-2" src="/date_of_birth.png" alt="DOB" width="128" height="35" />
+                    
+                    <div className="dynamic-label">{getGenderText()}</div>
+                    <div className="dynamic-label">जन्मतिथि/ आयु:  Date of Birth / Age: {formData.age || '...'}</div>
                   </div>
                 </div>
               </div>
