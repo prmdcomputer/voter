@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 
 interface VoterCardPreviewProps {
@@ -9,11 +9,23 @@ interface VoterCardPreviewProps {
 }
 
 export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
+  const [downloadDate, setDownloadDate] = useState('');
+
+  useEffect(() => {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    setDownloadDate(`${dd}-${mm}-${yyyy}`);
+  }, []);
+
   const photoUrl = formData.photoUrl || 'https://picsum.photos/seed/voter1/200/250';
   
   const getGenderText = () => {
-    const hindi = formData.gender === 'Female' ? 'महिला' : formData.gender === 'Male' ? 'पुरुष' : 'अन्य';
-    const english = formData.gender === 'Female' ? 'Female' : formData.gender === 'Male' ? 'Male' : 'Other';
+    const isFemale = formData.gender === 'Female';
+    const isMale = formData.gender === 'Male';
+    const hindi = isFemale ? 'महिला' : isMale ? 'पुरुष' : 'अन्य';
+    const english = isFemale ? 'Female' : isMale ? 'Male' : 'Other';
     return `${hindi} / ${english}`;
   };
 
@@ -31,188 +43,289 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
     return formData.age || '24';
   };
 
+  const relationLabelHindi = formData.relation === 'Husband' ? 'पति का नाम' : 
+                            formData.relation === 'Mother' ? 'माता का नाम' : 'पिता का नाम';
+  const relationLabelEnglish = formData.relation === 'Husband' ? "Husband's Name" : 
+                               formData.relation === 'Mother' ? "Mother's Name" : "Father's Name";
+
   return (
     <div className="voter-preview-container print:m-0">
       <style jsx>{`
         .voter-preview-container {
           background: transparent;
           color: #000;
-          font-family: 'Noto Sans', Arial, sans-serif;
-          width: 1050px;
+          font-family: 'Noto Sans', 'Inter', Arial, sans-serif;
+          width: 100%;
+          max-width: 1050px;
           margin: 0 auto;
-          position: relative;
         }
         
-        .card-row { margin: 0 auto; padding: 0; position: relative; width: 100%; display: flex; justify-content: center; align-items: flex-start; gap: 40px; }
-        
-        /* FRONT CARD */
-        .front-card-wrapper { height: 320px; position: relative; width: 500px; overflow: hidden; border: 1px solid #ddd; }
-        .front-card { height: 100%; width: 100%; background: #fff url(/bitmap.jpg) no-repeat; background-size: 100% 100%; position: relative; }
-        
-        .front-epic-no {
-          position: absolute;
-          top: 105px;
-          left: 20px;
-          font-family: 'Arial Black', sans-serif;
-          font-size: 19px;
-          font-weight: 900;
-          z-index: 20;
-          letter-spacing: -0.5px;
+        .card-row { 
+          display: flex; 
+          justify-content: center; 
+          align-items: flex-start; 
+          gap: 40px; 
+          width: 100%;
         }
-
-        .photo-section { 
-          position: absolute;
-          top: 132px;
-          left: 20px;
-          width: 110px; 
-          height: 140px; 
-          border: 1px solid #000; 
-          overflow: hidden; 
+        
+        /* CARD BASE */
+        .card-wrapper { 
+          height: 320px; 
+          width: 500px; 
+          position: relative; 
           background: #fff; 
+          border: 1px solid #000;
+          overflow: hidden;
+          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
-        .voter-photo { width: 100%; height: 100%; object-fit: cover; }
-        
-        .data-section { 
-          position: absolute;
-          top: 130px;
-          left: 142px;
-          font-size: 12.5px; 
-          line-height: 1.45;
-          color: #000;
-          width: 330px;
-        }
-        .data-item { margin-bottom: 2px; }
-        .label-b { font-weight: 800; }
-        .label-hindi { display: block; margin-bottom: -1px; }
 
-        .ghost-img-container { 
+        /* BACKGROUND DECORATION SIMULATION */
+        .card-bg {
           position: absolute;
-          bottom: 20px;
-          right: 25px;
-          width: 42px; 
-          height: 52px; 
-          border: 1px solid #aaa; 
-          filter: grayscale(100%) contrast(110%); 
-          opacity: 0.6; 
-          overflow: hidden; 
+          inset: 0;
+          z-index: 1;
+          opacity: 0.15;
+          pointer-events: none;
+          background: 
+            radial-gradient(circle at 0% 0%, #ff9933 0%, transparent 50%),
+            radial-gradient(circle at 100% 100%, #128807 0%, transparent 50%);
         }
-        .ghost-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .vertical-epic-text {
+        /* FRONT CARD ELEMENTS */
+        .header {
           position: absolute;
-          right: 12px;
-          top: 120px;
+          top: 5px;
+          left: 0;
+          right: 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 15px;
+          z-index: 10;
+        }
+        .eci-logo { width: 35px; height: 35px; object-fit: contain; }
+        .header-text { text-align: center; flex: 1; }
+        .header-hindi { font-weight: 800; font-size: 16px; margin-bottom: -4px; }
+        .header-english { font-weight: 800; font-size: 14px; border-top: 1.5px solid #000; padding-top: 2px; }
+        .tricolor-logo { width: 40px; height: 30px; object-fit: contain; }
+
+        .epic-no-display {
+          position: absolute;
+          top: 65px;
+          left: 20px;
+          color: #800000;
+          font-weight: 900;
+          font-size: 17px;
+          z-index: 10;
+        }
+
+        .main-photo-box {
+          position: absolute;
+          top: 95px;
+          left: 20px;
+          width: 115px;
+          height: 145px;
+          border: 1px solid #000;
+          background: #fff;
+          z-index: 10;
+        }
+        .main-photo { width: 100%; height: 100%; object-fit: cover; }
+
+        .info-data-box {
+          position: absolute;
+          top: 95px;
+          left: 145px;
+          z-index: 10;
+          font-size: 12px;
+          line-height: 1.3;
+          width: 280px;
+        }
+        .data-row { margin-bottom: 4px; }
+        .data-label-hindi { display: block; font-weight: 700; color: #333; }
+        .data-label-eng { font-weight: 700; color: #000; }
+        .data-value { font-weight: 500; }
+
+        .ghost-container {
+          position: absolute;
+          bottom: 35px;
+          right: 35px;
+          width: 45px;
+          height: 55px;
+          border: 0.5px solid #ccc;
+          filter: grayscale(100%) opacity(0.6);
+          z-index: 5;
+        }
+        .vertical-epic {
+          position: absolute;
+          right: 15px;
+          top: 100px;
           writing-mode: vertical-rl;
           font-size: 7px;
-          color: #aaa;
-          opacity: 0.8;
-          font-family: sans-serif;
+          color: #999;
+          z-index: 5;
         }
 
-        /* BACK CARD */
-        .back-card-wrapper { height: 320px; position: relative; width: 500px; overflow: hidden; border: 1px solid #ddd; }
-        .back-card { height: 100%; width: 100%; background: #fff url(/bitmap_2.png) no-repeat; background-size: 100% 100%; position: relative; }
-        
-        .back-qr-section {
+        .front-footer {
           position: absolute;
-          top: 60px;
-          left: 45px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: #f8f9fa;
+          border-top: 1px solid #ddd;
+          text-align: center;
+          padding: 4px 0;
+          font-size: 10px;
+          font-weight: 600;
+          z-index: 10;
+        }
+
+        /* BACK CARD ELEMENTS */
+        .back-qr-container {
+          position: absolute;
+          top: 45px;
+          left: 25px;
+          text-align: center;
+          z-index: 10;
+        }
+        .qr-box { padding: 5px; background: #fff; border: 1px solid #eee; }
+        .qr-caption { font-size: 8px; margin-top: 4px; color: #800000; font-weight: 700; }
+        .back-epic-label { font-weight: 800; font-size: 13px; margin-top: 5px; }
+
+        .back-details-container {
+          position: absolute;
+          top: 20px;
+          left: 185px;
+          width: 290px;
+          z-index: 10;
+          font-size: 11.5px;
+          line-height: 1.35;
+        }
+        .address-box { margin-bottom: 25px; }
+        .ero-box { margin-bottom: 15px; }
+        .download-date { font-weight: 700; font-size: 13px; }
+
+        .back-footer {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 22px;
+          border-top: 1px solid #ddd;
           display: flex;
-          flex-direction: column;
           align-items: center;
-          width: 130px;
+          justify-content: space-around;
+          padding: 0 10px;
+          z-index: 10;
+          font-size: 9px;
+          font-weight: 700;
         }
-        .back-qr-box { 
-          padding: 3px; 
-          background: #fff; 
-          border: 1px solid #eee; 
-          margin-bottom: 4px;
-        }
-        .scan-caption { font-size: 9px; color: #888; margin-bottom: 2px; }
-        .back-epic-id { font-family: 'Arial Black', sans-serif; font-size: 14px; font-weight: 900; }
-
-        .back-info-section {
+        .footer-line {
           position: absolute;
-          top: 25px;
-          left: 195px;
-          width: 280px;
-          font-size: 13px;
-          line-height: 1.4;
+          bottom: 2px;
+          left: 10px;
+          right: 10px;
+          height: 2px;
+          background: #e11d48;
+          z-index: 11;
         }
-        .address-section { margin-bottom: 25px; }
-        .ero-section { margin-top: 15px; }
 
-        .dotted-line { border-left: 2px dotted #CBD5E1; height: 320px; margin: 0; }
+        .divider { width: 1px; border-left: 2px dashed #CBD5E1; height: 320px; }
 
         @media print {
-          .voter-preview-container { width: 100%; }
-          .dotted-line { display: none; }
-          .front-card-wrapper, .back-card-wrapper { border: none; }
+          .divider { display: none; }
+          .card-row { gap: 10mm; }
+          .card-wrapper { box-shadow: none; border: 1px solid #000; }
+          .no-print { display: none; }
         }
       `}</style>
 
       <div className="card-row">
         {/* FRONT CARD */}
-        <div className="front-card-wrapper">
-          <div className="front-card">
-            <div className="front-epic-no">{formData.epicNo || 'UAF3743325'}</div>
-            
-            <div className="photo-section">
-              <img className="voter-photo" src={photoUrl} alt="Voter" />
+        <div className="card-wrapper">
+          <div className="card-bg"></div>
+          
+          <div className="header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Election_Commission_of_India_Logo.svg/1200px-Election_Commission_of_India_Logo.svg.png" className="eci-logo" alt="ECI" />
+            <div className="header-text">
+              <div className="header-hindi">भारत निर्वाचन आयोग</div>
+              <div className="header-english">ELECTION COMMISSION OF INDIA</div>
             </div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Election_Commission_of_India_symbol.svg/1200px-Election_Commission_of_India_symbol.svg.png" className="tricolor-logo" alt="Logo" />
+          </div>
 
-            <div className="data-section">
-              <div className="data-item">
-                <span className="label-hindi">नाम: {formData.nameLocal || 'Uttar Pradesh'}</span>
-                <span className="label-b">Name: </span>{formData.name || 'suraj'}
-              </div>
-              <div className="data-item">
-                <span className="label-hindi">पिता का नाम: {formData.fatherHusbandNameLocal || 'Uttar Pradesh'}</span>
-                <span className="label-b">Father's Name: </span>{formData.fatherHusbandName || 'hdgdfg'}
-              </div>
-              <div className="data-item">
-                <span className="label-b">लिंग / Gender: </span>{getGenderText()}
-              </div>
-              <div className="data-item">
-                <span className="label-b">जन्मतिथि/ आयु: Date of Birth / Age: </span>{getDobOrAgeText()}
-              </div>
-            </div>
+          <div className="epic-no-display">{formData.epicNo || 'UP/31/153/0063398'}</div>
 
-            <div className="ghost-img-container">
-              <img src={photoUrl} alt="" className="ghost-img" />
+          <div className="main-photo-box">
+            <img src={photoUrl} className="main-photo" alt="Voter" />
+          </div>
+
+          <div className="info-data-box">
+            <div className="data-row">
+              <span className="data-label-hindi">नाम: {formData.nameLocal || 'सीतापती'}</span>
+              <span className="data-label-eng">Name: </span>
+              <span className="data-value">{formData.name || 'Sitapti'}</span>
             </div>
-            
-            <div className="vertical-epic-text">
-              {formData.epicNo || 'UAF3743325'}
+            <div className="data-row">
+              <span className="data-label-hindi">{relationLabelHindi}: {formData.fatherHusbandNameLocal || 'रामनरायन'}</span>
+              <span className="data-label-eng">{relationLabelEnglish}: </span>
+              <span className="data-value">{formData.fatherHusbandName || 'Ramnarayan'}</span>
             </div>
+            <div className="data-row">
+              <span className="data-label-eng">लिंग / Gender: </span>
+              <span className="data-value">{getGenderText()}</span>
+            </div>
+            <div className="data-row">
+              <span className="data-label-hindi">जन्म तिथि / आयु:</span>
+              <span className="data-label-eng">Date of Birth / Age: </span>
+              <span className="data-value">{getDobOrAgeText()}</span>
+            </div>
+          </div>
+
+          <div className="ghost-container">
+            <img src={photoUrl} className="main-photo" alt="Ghost" />
+          </div>
+          <div className="vertical-epic">{formData.epicNo || 'UP/31/153/0063398'}</div>
+
+          <div className="front-footer">
+            e-Electors Photo Identity Card - ई-निर्वाचक फोटो पहचान पत्र
           </div>
         </div>
 
-        <div className="dotted-line no-print"></div>
+        <div className="divider no-print"></div>
 
         {/* BACK CARD */}
-        <div className="back-card-wrapper">
-          <div className="back-card">
-            <div className="back-qr-section">
-              <div className="back-qr-box">
-                <QRCodeSVG value={formData.epicNo || 'UAF3743325'} size={115} />
-              </div>
-              <p className="scan-caption">Scan By VHA/BLO App</p>
-              <p className="back-epic-id">{formData.epicNo || 'UAF3743325'}</p>
+        <div className="card-wrapper">
+          <div className="card-bg"></div>
+          
+          <div className="back-qr-container">
+            <div className="qr-box">
+              <QRCodeSVG value={formData.epicNo || 'UP/31/153/0063398'} size={110} />
+            </div>
+            <div className="qr-caption">Scan By VHA/BLO App</div>
+            <div className="back-epic-label">{formData.epicNo || 'UP/31/153/0063398'}</div>
+          </div>
+
+          <div className="back-details-container">
+            <div className="address-box">
+              <div>पता: {formData.addressLocal || '65, त्रिकोलिया-२, त्रिकोलिया, पयागपुर, बहराइच, उत्तर प्रदेश - 271871'}</div>
+              <div><span className="data-label-eng">Address: </span>{formData.address || '65, TRIKOLIYA-2, TRIKOLIYA, PAYAGPUR, BAHRAICH, UTTAR PRADESH - 271871'}</div>
             </div>
 
-            <div className="back-info-section">
-              <div className="address-section">
-                <p>पता: {formData.addressLocal || 'hdjdhg'}</p>
-                <p><span className="label-b">Address: </span>{formData.address || 'bhikharipur'}</p>
-              </div>
-              
-              <div className="ero-section">
-                <p>निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || 'gfjfj'}</p>
-                <p><span className="label-b">Electoral Registration Officer, </span>{formData.assemblyConstituency || 'hjgjkghj'}</p>
-              </div>
+            <div className="ero-box">
+              <div>निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '286 - बहराइच'}</div>
+              <div><span className="data-label-eng">Electoral Registration Officer, </span>{formData.assemblyConstituency || '286 - Bahraich'}</div>
+            </div>
+
+            <div className="download-date">
+              Download Date -: {downloadDate}
             </div>
           </div>
+
+          <div className="back-footer">
+            <div className="flex items-center gap-1">📞 1950</div>
+            <div className="flex items-center gap-1">🌐 https://ceouttarpradesh.nic.in/</div>
+          </div>
+          <div className="footer-line"></div>
         </div>
       </div>
     </div>
