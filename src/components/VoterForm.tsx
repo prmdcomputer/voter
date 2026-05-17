@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -160,7 +159,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
             Voter Photograph
           </Label>
           <ImageUpload 
-            currentUrl={formData.photoUrl} 
+            currentUrl={formData.photoUrl || ''} 
             onUpload={(url) => setFormData((prev: any) => ({ ...prev, photoUrl: url }))} 
           />
         </div>
@@ -175,7 +174,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
               <Input 
                 id="epicNo" 
                 name="epicNo" 
-                value={formData.epicNo} 
+                value={formData.epicNo || ''} 
                 onChange={handleChange}
                 placeholder="EPIC NO."
                 className="uppercase font-bold tracking-widest border-primary/20 flex-1"
@@ -194,11 +193,11 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="age">Age</Label>
-              <Input id="age" name="age" type="number" value={formData.age} onChange={handleChange} />
+              <Input id="age" name="age" type="number" value={formData.age || ''} onChange={handleChange} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="gender">Gender</Label>
-              <Select onValueChange={(val) => setFormData((prev: any) => ({ ...prev, gender: val }))} value={formData.gender}>
+              <Select onValueChange={(val) => setFormData((prev: any) => ({ ...prev, gender: val }))} value={formData.gender || 'Male'}>
                 <SelectTrigger>
                   <SelectValue placeholder="Gender" />
                 </SelectTrigger>
@@ -218,18 +217,18 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="name">Full Name (English)</Label>
-          <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="JOHN DOE" className="uppercase font-medium" />
+          <Input id="name" name="name" value={formData.name || ''} onChange={handleChange} placeholder="JOHN DOE" className="uppercase font-medium" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="nameLocal">Name (Regional Script)</Label>
-          <Input id="nameLocal" name="nameLocal" value={formData.nameLocal} onChange={handleChange} placeholder="क्षेत्रीय लिपि में नाम" />
+          <Input id="nameLocal" name="nameLocal" value={formData.nameLocal || ''} onChange={handleChange} placeholder="क्षेत्रीय लिपि में नाम" />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
           <Label htmlFor="relation">Relation</Label>
-          <Select onValueChange={(val) => setFormData((prev: any) => ({ ...prev, relation: val }))} value={formData.relation}>
+          <Select onValueChange={(val) => setFormData((prev: any) => ({ ...prev, relation: val }))} value={formData.relation || 'Father'}>
             <SelectTrigger>
               <SelectValue placeholder="Relation" />
             </SelectTrigger>
@@ -243,11 +242,11 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
         </div>
         <div className="space-y-2">
           <Label htmlFor="fatherHusbandName">Relative Name (English)</Label>
-          <Input id="fatherHusbandName" name="fatherHusbandName" value={formData.fatherHusbandName} onChange={handleChange} className="uppercase font-medium" />
+          <Input id="fatherHusbandName" name="fatherHusbandName" value={formData.fatherHusbandName || ''} onChange={handleChange} className="uppercase font-medium" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="fatherHusbandNameLocal">Relative Name (Regional)</Label>
-          <Input id="fatherHusbandNameLocal" name="fatherHusbandNameLocal" value={formData.fatherHusbandNameLocal} onChange={handleChange} />
+          <Input id="fatherHusbandNameLocal" name="fatherHusbandNameLocal" value={formData.fatherHusbandNameLocal || ''} onChange={handleChange} />
         </div>
       </div>
 
@@ -316,7 +315,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           <Textarea 
             id="address" 
             name="address" 
-            value={formData.address} 
+            value={formData.address || ''} 
             onChange={handleChange} 
             rows={2}
             className="uppercase"
@@ -327,7 +326,7 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
           <Textarea 
             id="addressLocal" 
             name="addressLocal" 
-            value={formData.addressLocal} 
+            value={formData.addressLocal || ''} 
             onChange={handleChange} 
             rows={2}
           />
@@ -337,23 +336,23 @@ export function VoterForm({ formData, setFormData }: VoterFormProps) {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div className="space-y-2">
           <Label htmlFor="district">District</Label>
-          <Input id="district" name="district" value={formData.district} onChange={handleChange} className="uppercase" />
+          <Input id="district" name="district" value={formData.district || ''} onChange={handleChange} className="uppercase" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="state">State</Label>
-          <Input id="state" name="state" value={formData.state} onChange={handleChange} className="uppercase" />
+          <Input id="state" name="state" value={formData.state || ''} onChange={handleChange} className="uppercase" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="partNo">Part No</Label>
-          <Input id="partNo" name="partNo" value={formData.partNo} onChange={handleChange} />
+          <Input id="partNo" name="partNo" value={formData.partNo || ''} onChange={handleChange} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="partName">Part Name</Label>
-          <Input id="partName" name="partName" value={formData.partName} onChange={handleChange} className="uppercase" />
+          <Input id="partName" name="partName" value={formData.partName || ''} onChange={handleChange} className="uppercase" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="serialNo">Serial No</Label>
-          <Input id="serialNo" name="serialNo" value={formData.serialNo} onChange={handleChange} />
+          <Input id="serialNo" name="serialNo" value={formData.serialNo || ''} onChange={handleChange} />
         </div>
       </div>
     </div>

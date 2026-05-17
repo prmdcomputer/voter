@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -31,6 +30,7 @@ export default function VoterFrontPage() {
     partNo: '',
     partName: '',
     partNameLocal: '',
+    serialNo: '',
     address: '',
     addressLocal: '',
     targetLanguage: 'Hindi',
@@ -141,7 +141,7 @@ export default function VoterFrontPage() {
           <div className="max-w-5xl mx-auto animate-in zoom-in-95 duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
               {/* Preview Display */}
-              <div className="lg:col-span-7 flex flex-col gap-8">
+              <div className="lg:col-span-12 flex flex-col gap-8">
                 <div className="no-print flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="w-6 h-6 text-green-500" />
@@ -152,53 +152,6 @@ export default function VoterFrontPage() {
                 <div className="flex justify-center p-8 bg-white rounded-3xl shadow-2xl border border-gray-100 print:p-0 print:bg-transparent print:shadow-none print:border-none">
                   <VoterCardPreview formData={formData} />
                 </div>
-              </div>
-
-              {/* Action Sidebar */}
-              <div className="lg:col-span-5 no-print sticky top-24 flex flex-col gap-6">
-                <Card className="bg-white border-none shadow-lg">
-                  <CardContent className="p-6 space-y-6">
-                    <div>
-                      <h3 className="font-bold text-lg mb-2">Print Configuration</h3>
-                      <p className="text-sm text-muted-foreground">Adjust settings for standard CR-80 PVC cards.</p>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                        <span className="text-sm font-medium">Standard PVC (85.6 x 54mm)</span>
-                        <Badge variant="outline" className="bg-white text-green-600 border-green-200">Optimal</Badge>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                        <span className="text-sm font-medium">Regional Font Rendering</span>
-                        <Badge variant="outline" className="bg-white text-blue-600 border-blue-200">Verified</Badge>
-                      </div>
-                    </div>
-
-                    <Button onClick={handlePrint} className="w-full py-6 text-lg font-bold gap-3 bg-accent hover:bg-accent/90 shadow-lg">
-                      <Printer className="w-5 h-5" />
-                      Print Card Now
-                    </Button>
-                    
-                    <Button variant="ghost" onClick={goToEdit} className="w-full text-muted-foreground hover:text-primary">
-                      Go back to editing
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-primary text-white border-none shadow-lg overflow-hidden relative">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-12 -mt-12 blur-2xl"></div>
-                  <CardContent className="p-6 relative z-10">
-                    <div className="flex gap-4 items-start">
-                      <div className="bg-white/20 p-2 rounded-lg">
-                        <FileDown className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold">Audit Record Created</h4>
-                        <p className="text-xs text-white/80 mt-1 leading-relaxed">A digital timestamp and audit record has been saved for this generation. Please ensure compliance with data protection laws.</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           </div>
