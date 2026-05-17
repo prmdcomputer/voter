@@ -61,7 +61,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           height: 666px;
           overflow: hidden;
           z-index: 0;
-          background: transparent;
+          background: #fff;
           transform-origin: top left;
           transform: scale(var(--preview-scale, 0.45));
         }
@@ -172,13 +172,15 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           left: 958px;
           top: 177px;
           position: absolute;
-          width: 25px;
-          height: 250px;
+          width: 300px;
+          height: 25px;
           z-index: 10;
-          writing-mode: vertical-rl;
           font-size: 16px;
-          color: #666;
+          color: #000000;
           font-weight: bold;
+          transform: rotate(90deg);
+          transform-origin: top left;
+          white-space: nowrap;
         }
 
         #Layer8 {
@@ -212,7 +214,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         #Layer12 {
           left: 1399px;
-          top: 356px;
+          top: 386px;
           position: absolute;
           width: 600px;
           height: auto;
@@ -222,7 +224,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           color: #000;
         }
 
-        .epic-bottom {
+        .epic-bottom-back {
            position: absolute;
            left: 1082px;
            top: 455px;
@@ -232,6 +234,8 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
            letter-spacing: -1px;
            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
            z-index: 20;
+           width: 300px;
+           text-align: center;
         }
 
         @media screen and (max-width: 1024px) {
@@ -305,7 +309,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           <div className="mt-1"><span className="font-bold">Electoral Registration Officer, </span>{assemblyTextEnglish}</div>
         </div>
 
-        <div className="epic-bottom">
+        <div className="epic-bottom-back">
           {epicNo}
         </div>
       </div>
