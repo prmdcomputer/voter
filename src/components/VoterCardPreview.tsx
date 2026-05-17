@@ -197,7 +197,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
 
         #Layer9 {
           left: 1403px;
-          top: 43px;
+          top: 85px;
           position: absolute;
           width: 640px;
           height: auto;
