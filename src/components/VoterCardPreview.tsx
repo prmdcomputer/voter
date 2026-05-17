@@ -49,284 +49,297 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
                                formData.relation === 'Mother' ? "Mother's Name" : "Father's Name";
 
   return (
-    <div className="voter-preview-container print:m-0">
+    <div className="voter-preview-wrapper print:m-0">
       <style jsx>{`
-        .voter-preview-container {
-          background: transparent;
-          color: #000;
-          font-family: 'Noto Sans', 'Inter', Arial, sans-serif;
+        .voter-preview-wrapper {
           width: 100%;
-          max-width: 1050px;
+          max-width: 1000px; /* Scaled down for UI visibility */
           margin: 0 auto;
+          overflow: visible;
         }
-        
-        .card-row { 
-          display: flex; 
-          justify-content: center; 
-          align-items: flex-start; 
-          gap: 40px; 
-          width: 100%;
-        }
-        
-        /* CARD BASE */
-        .card-wrapper { 
-          height: 310px; 
-          width: 490px; 
-          position: relative; 
-          background: #fff; 
-          border: 1px solid #000;
+
+        #background {
+          left: 0px;
+          top: 0px;
+          position: relative;
+          width: 2081px;
+          height: 666px;
           overflow: hidden;
-          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+          z-index: 0;
+          background: transparent;
+          /* Scale the 2081px canvas to fit the container */
+          transform-origin: top left;
+          transform: scale(var(--preview-scale, 0.48));
         }
 
-        /* BACKGROUND DECORATION SIMULATION */
-        .card-bg {
+        /* Front Card Background */
+        #Layer14 {
+          left: 9px;
+          top: 24px;
           position: absolute;
-          inset: 0;
-          z-index: 1;
-          opacity: 0.15;
-          pointer-events: none;
-          background: 
-            radial-gradient(circle at 0% 0%, #ff9933 0%, transparent 50%),
-            radial-gradient(circle at 100% 100%, #128807 0%, transparent 50%);
+          width: 1023px;
+          height: 622px;
+          z-index: 2;
+          background-image: url('/Layer14.png');
+          background-size: cover;
+          border: 1px solid #ccc;
         }
 
-        /* FRONT CARD ELEMENTS */
-        .header {
+        /* Back Card Background */
+        #Layer15 {
+          left: 1045px;
+          top: 23px;
           position: absolute;
-          top: 8px;
-          left: 0;
-          right: 0;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0 15px;
+          width: 1010px;
+          height: 620px;
+          z-index: 3;
+          background-image: url('/Layer15.png');
+          background-size: cover;
+          border: 1px solid #ccc;
+        }
+
+        /* Voter Photo (Front) */
+        #Layer13 {
+          left: 38px;
+          top: 254px;
+          position: absolute;
+          width: 255px;
+          height: 334px;
           z-index: 10;
+          overflow: hidden;
+          border: 1px solid #000;
         }
-        .eci-logo { width: 32px; height: 32px; object-fit: contain; }
-        .header-text { text-align: center; flex: 1; }
-        .header-hindi { font-weight: 800; font-size: 15px; margin-bottom: -4px; line-height: 1.2; }
-        .header-english { font-weight: 800; font-size: 13px; border-top: 1.2px solid #000; padding-top: 1px; margin-top: 2px; }
-        .tricolor-logo { width: 35px; height: 28px; object-fit: contain; }
+        #Layer13 img { width: 100%; height: 100%; object-fit: cover; }
 
-        .epic-no-display {
+        /* EPIC No (Front) */
+        #Layer5 {
+          left: 45px;
+          top: 194px;
           position: absolute;
-          top: 62px;
-          left: 18px;
+          width: 325px;
+          height: 36px;
+          z-index: 11;
           color: #800000;
           font-weight: 900;
           font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
-          font-size: 16px;
-          z-index: 10;
+          font-size: 32px;
         }
 
-        .main-photo-box {
+        /* Name Details (Front) */
+        #Layer2 {
+          left: 313px;
+          top: 262px;
           position: absolute;
-          top: 88px;
-          left: 18px;
-          width: 110px;
-          height: 138px;
-          border: 1px solid #000;
-          background: #fff;
-          z-index: 10;
+          width: 600px;
+          height: 77px;
+          z-index: 14;
+          line-height: 1.2;
         }
-        .main-photo { width: 100%; height: 100%; object-fit: cover; }
+        .name-hindi { display: block; font-weight: 700; font-size: 26px; color: #000; }
+        .name-eng-label { font-weight: 700; font-size: 24px; }
+        .name-eng-val { font-weight: 500; font-size: 24px; text-transform: uppercase; }
 
-        .info-data-box {
+        /* Relation Details (Front) */
+        #Layer3 {
+          left: 311px;
+          top: 349px;
           position: absolute;
-          top: 88px;
-          left: 140px;
-          z-index: 10;
-          font-size: 13px;
-          line-height: 1.35;
-          width: 320px;
+          width: 600px;
+          height: 85px;
+          z-index: 13;
+          line-height: 1.2;
         }
-        .data-row { margin-bottom: 5px; }
-        .data-label-hindi { display: block; font-weight: 700; color: #333; }
-        .data-label-eng { font-weight: 700; color: #000; }
-        .data-value { font-weight: 500; }
+        .rel-hindi { display: block; font-weight: 700; font-size: 26px; }
+        .rel-eng-label { font-weight: 700; font-size: 24px; }
+        .rel-eng-val { font-weight: 500; font-size: 24px; text-transform: uppercase; }
 
-        .ghost-container {
+        /* Gender & Age/DOB (Front) */
+        #Layer4 {
+          left: 311px;
+          top: 436px;
           position: absolute;
-          bottom: 35px;
-          right: 35px;
-          width: 42px;
-          height: 52px;
-          border: 0.5px solid #ccc;
-          filter: grayscale(100%) opacity(0.6);
-          z-index: 5;
-        }
-        .vertical-epic {
-          position: absolute;
-          right: 12px;
-          top: 100px;
-          writing-mode: vertical-rl;
-          font-size: 7px;
-          color: #999;
-          z-index: 5;
-        }
-
-        .front-footer {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: #f8f9fa;
-          border-top: 1px solid #ddd;
-          text-align: center;
-          padding: 4px 0;
-          font-size: 9.5px;
-          font-weight: 700;
-          z-index: 10;
-        }
-
-        /* BACK CARD ELEMENTS */
-        .back-qr-container {
-          position: absolute;
-          top: 40px;
-          left: 20px;
-          text-align: center;
-          z-index: 10;
-        }
-        .qr-box { padding: 4px; background: #fff; border: 1px solid #eee; }
-        .qr-caption { font-size: 8px; margin-top: 4px; color: #800000; font-weight: 800; }
-        .back-epic-label { font-weight: 800; font-size: 12.5px; margin-top: 5px; }
-
-        .back-details-container {
-          position: absolute;
-          top: 18px;
-          left: 175px;
-          width: 295px;
-          z-index: 10;
-          font-size: 11px;
+          width: 600px;
+          height: 127px;
+          z-index: 12;
           line-height: 1.4;
         }
-        .address-box { margin-bottom: 22px; }
-        .ero-box { margin-bottom: 12px; }
-        .download-date { font-weight: 800; font-size: 13px; margin-top: 5px; }
+        .gender-row { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        .dob-row-hindi { display: block; font-weight: 700; font-size: 24px; }
+        .dob-row-eng { font-weight: 700; font-size: 24px; }
+        .dob-val { font-weight: 500; }
 
-        .back-footer {
+        /* Ghost Image (Front) */
+        #Layer6 {
+          left: 874px;
+          top: 186px;
           position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 22px;
-          border-top: 1px solid #ddd;
+          width: 89px;
+          height: 110px;
+          z-index: 10;
+          filter: grayscale(100%) opacity(0.6);
+          overflow: hidden;
+        }
+        #Layer6 img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Vertical EPIC (Front) */
+        #Layer7 {
+          left: 958px;
+          top: 177px;
+          position: absolute;
+          width: 19px;
+          height: 250px;
+          z-index: 9;
+          writing-mode: vertical-rl;
+          font-size: 14px;
+          color: #999;
+          font-weight: bold;
+        }
+
+        /* QR Code (Back) */
+        #Layer8 {
+          left: 1082px;
+          top: 151px;
+          position: absolute;
+          width: 281px;
+          height: 292px;
+          z-index: 8;
           display: flex;
           align-items: center;
-          justify-content: space-around;
-          padding: 0 10px;
-          z-index: 10;
-          font-size: 9px;
-          font-weight: 700;
+          justify-content: center;
+          background: #fff;
+          padding: 10px;
         }
-        .footer-line {
+
+        /* Address Header (Back) */
+        #Layer9 {
+          left: 1403px;
+          top: 43px;
           position: absolute;
-          bottom: 2px;
-          left: 10px;
-          right: 10px;
-          height: 2.5px;
-          background: #e11d48;
-          z-index: 11;
+          width: 640px;
+          height: 86px;
+          z-index: 7;
+          font-size: 22px;
+          line-height: 1.2;
+        }
+        .addr-hindi { font-weight: 700; display: block; }
+
+        /* ERO Block (Back) */
+        #Layer10 {
+          left: 1406px;
+          top: 129px;
+          position: absolute;
+          width: 620px;
+          height: 129px;
+          z-index: 6;
+          font-size: 20px;
+          line-height: 1.3;
+          display: none; /* Usually overlapped or integrated into address if needed */
         }
 
-        .divider { width: 1px; border-left: 2px dashed #CBD5E1; height: 310px; }
+        /* Download Date (Back) */
+        #Layer11 {
+          left: 1113px;
+          top: 501px;
+          position: absolute;
+          width: 292px;
+          height: 42px;
+          z-index: 5;
+          font-size: 24px;
+          font-weight: 800;
+        }
 
+        /* Address Body / Details (Back Right) */
+        #Layer12 {
+          left: 1399px;
+          top: 356px;
+          position: absolute;
+          width: 585px;
+          height: 200px;
+          z-index: 4;
+          font-size: 20px;
+          line-height: 1.4;
+        }
+
+        @media screen and (max-width: 1024px) {
+          .voter-preview-wrapper { --preview-scale: 0.45; }
+        }
+        @media screen and (max-width: 768px) {
+          .voter-preview-wrapper { --preview-scale: 0.3; }
+        }
         @media print {
-          .divider { display: none; }
-          .card-row { gap: 10mm; }
-          .card-wrapper { box-shadow: none; border: 1px solid #000; }
-          .no-print { display: none; }
+          .voter-preview-wrapper { 
+            transform: scale(0.4) !important; 
+            max-width: none; 
+            margin: 0;
+          }
+          #background {
+             transform: scale(0.35); /* Adjust for A4 print */
+          }
         }
       `}</style>
 
-      <div className="card-row">
-        {/* FRONT CARD */}
-        <div className="card-wrapper">
-          <div className="card-bg"></div>
-          
-          <div className="header">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Election_Commission_of_India_Logo.svg/1200px-Election_Commission_of_India_Logo.svg.png" className="eci-logo" alt="ECI" />
-            <div className="header-text">
-              <div className="header-hindi">भारत निर्वाचन आयोग</div>
-              <div className="header-english">ELECTION COMMISSION OF INDIA</div>
-            </div>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Election_Commission_of_India_symbol.svg/1200px-Election_Commission_of_India_symbol.svg.png" className="tricolor-logo" alt="Logo" />
+      <div id="background">
+        {/* FRONT CARD SECTION */}
+        <div id="Layer14">
+          <div id="Layer13">
+            <img src={photoUrl} alt="Voter" />
           </div>
 
-          <div className="epic-no-display">{formData.epicNo || 'UP/31/153/0063398'}</div>
+          <div id="Layer5">{formData.epicNo || 'UP/31/153/0063398'}</div>
 
-          <div className="main-photo-box">
-            <img src={photoUrl} className="main-photo" alt="Voter" />
-          </div>
-
-          <div className="info-data-box">
-            <div className="data-row">
-              <span className="data-label-hindi">नाम: {formData.nameLocal || 'सीतापती'}</span>
-              <span className="data-label-eng">Name: </span>
-              <span className="data-value">{formData.name || 'SITAPTI'}</span>
-            </div>
-            <div className="data-row">
-              <span className="data-label-hindi">{relationLabelHindi}: {formData.fatherHusbandNameLocal || 'रामनरायन'}</span>
-              <span className="data-label-eng">{relationLabelEnglish}: </span>
-              <span className="data-value">{formData.fatherHusbandName || 'RAMNARAYAN'}</span>
-            </div>
-            <div className="data-row">
-              <span className="data-label-eng">लिंग / Gender: </span>
-              <span className="data-value">{getGenderText()}</span>
-            </div>
-            <div className="data-row">
-              <span className="data-label-hindi">जन्म तिथि / आयु:</span>
-              <span className="data-label-eng">Date of Birth / Age: </span>
-              <span className="data-value">{getDobOrAgeText()}</span>
+          <div id="Layer2">
+            <span className="name-hindi">नाम: {formData.nameLocal || 'सीतापती'}</span>
+            <div>
+              <span className="name-eng-label">Name: </span>
+              <span className="name-eng-val">{formData.name || 'SITAPTI'}</span>
             </div>
           </div>
 
-          <div className="ghost-container">
-            <img src={photoUrl} className="main-photo" alt="Ghost" />
+          <div id="Layer3">
+            <span className="rel-hindi">{relationLabelHindi}: {formData.fatherHusbandNameLocal || 'रामनरायन'}</span>
+            <div>
+              <span className="rel-eng-label">{relationLabelEnglish}: </span>
+              <span className="rel-eng-val">{formData.fatherHusbandName || 'RAMNARAYAN'}</span>
+            </div>
           </div>
-          <div className="vertical-epic">{formData.epicNo || 'UP/31/153/0063398'}</div>
 
-          <div className="front-footer">
-            e-Electors Photo Identity Card - ई-निर्वाचक फोटो पहचान पत्र
+          <div id="Layer4">
+            <div className="gender-row">लिंग / Gender: {getGenderText()}</div>
+            <span className="dob-row-hindi">जन्म तिथि / आयु:</span>
+            <div className="dob-row-eng">
+              Date of Birth / Age: <span className="dob-val">{getDobOrAgeText()}</span>
+            </div>
           </div>
+
+          <div id="Layer6">
+            <img src={photoUrl} alt="Ghost" />
+          </div>
+
+          <div id="Layer7">{formData.epicNo || 'UP/31/153/0063398'}</div>
         </div>
 
-        <div className="divider no-print"></div>
-
-        {/* BACK CARD */}
-        <div className="card-wrapper">
-          <div className="card-bg"></div>
-          
-          <div className="back-qr-container">
-            <div className="qr-box">
-              <QRCodeSVG value={formData.epicNo || 'UP/31/153/0063398'} size={105} />
-            </div>
-            <div className="qr-caption">Scan By VHA/BLO App</div>
-            <div className="back-epic-label">{formData.epicNo || 'UP/31/153/0063398'}</div>
+        {/* BACK CARD SECTION */}
+        <div id="Layer15">
+          <div id="Layer8">
+            <QRCodeSVG value={formData.epicNo || 'UP/31/153/0063398'} size={260} />
           </div>
 
-          <div className="back-details-container">
-            <div className="address-box">
-              <div className="font-bold">पता: {formData.addressLocal || '65, त्रिकोलिया-२, त्रिकोलिया, पयागपुर, बहराइच, उत्तर प्रदेश - 271871'}</div>
-              <div className="mt-1"><span className="data-label-eng">Address: </span>{formData.address || '65, TRIKOLIYA-2, TRIKOLIYA, PAYAGPUR, BAHRAICH, UTTAR PRADESH - 271871'}</div>
-            </div>
-
-            <div className="ero-box">
-              <div className="font-bold">निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '286 - बहराइच'}</div>
-              <div className="mt-0.5"><span className="data-label-eng">Electoral Registration Officer, </span>{formData.assemblyConstituency || '286 - Bahraich'}</div>
-            </div>
-
-            <div className="download-date">
-              Download Date -: {downloadDate}
-            </div>
+          <div id="Layer9">
+            <div className="addr-hindi">पता: {formData.addressLocal || '65, त्रिकोलिया-२, त्रिकोलिया, पयागपुर, बहराइच, उत्तर प्रदेश - 271871'}</div>
+            <div className="mt-2"><span className="font-bold">Address: </span>{formData.address || '65, TRIKOLIYA-2, TRIKOLIYA, PAYAGPUR, BAHRAICH, UTTAR PRADESH - 271871'}</div>
           </div>
 
-          <div className="back-footer">
-            <div className="flex items-center gap-1">📞 1950</div>
-            <div className="flex items-center gap-1">🌐 https://ceouttarpradesh.nic.in/</div>
+          <div id="Layer11">
+            Download Date -: {downloadDate}
           </div>
-          <div className="footer-line"></div>
+
+          <div id="Layer12">
+            <div className="font-bold">निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '286 - बहराइच'}</div>
+            <div className="mt-2"><span className="font-bold">Electoral Registration Officer, </span>{formData.assemblyConstituency || '286 - Bahraich'}</div>
+            <div className="mt-8 text-red-600 font-black text-3xl tracking-tighter">
+              {formData.epicNo || 'UP/31/153/0063398'}
+            </div>
+          </div>
         </div>
       </div>
     </div>
