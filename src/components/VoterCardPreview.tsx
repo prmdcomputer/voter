@@ -108,7 +108,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         }
         #Layer13 img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* EPIC No (Front) */
+        /* EPIC No (Front) - Changed to Black */
         #Layer5 {
           left: 45px;
           top: 194px;
@@ -116,7 +116,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           width: 400px;
           height: 45px;
           z-index: 11;
-          color: #800000;
+          color: #000000;
           font-weight: 900;
           font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
           font-size: 34px;
@@ -229,17 +229,17 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         /* Download Date (Back) */
         #Layer11 {
           left: 1113px;
-          top: 501px;
+          top: 520px;
           position: absolute;
           width: 400px;
           height: 42px;
           z-index: 10;
-          font-size: 26px;
+          font-size: 24px;
           font-weight: 800;
           color: #000;
         }
 
-        /* ERO & Bottom EPIC (Back) */
+        /* ERO Block (Back) */
         #Layer12 {
           left: 1399px;
           top: 356px;
@@ -252,13 +252,17 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
           color: #000;
         }
 
+        /* Bottom EPIC (Back) - Positioned below QR, Color Black */
         .epic-bottom {
-           margin-top: 35px;
-           color: #800000;
+           position: absolute;
+           left: 1082px;
+           top: 455px;
+           color: #000000;
            font-weight: 900;
            font-size: 34px;
            letter-spacing: -1px;
            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+           z-index: 20;
         }
 
         @media screen and (max-width: 1024px) {
@@ -336,10 +340,10 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         <div id="Layer12">
           <div className="font-bold">निर्वाचक रजिस्ट्रीकरण अधिकारी, {formData.assemblyConstituencyLocal || '286 - बहराइच'}</div>
           <div className="mt-1"><span className="font-bold">Electoral Registration Officer, </span>{formData.assemblyConstituency || '286 - Bahraich'}</div>
-          
-          <div className="epic-bottom">
-            {formData.epicNo || 'UP/31/153/0063398'}
-          </div>
+        </div>
+
+        <div className="epic-bottom">
+          {formData.epicNo || 'UP/31/153/0063398'}
         </div>
       </div>
     </div>
