@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 
 interface VoterCardPreviewProps {
@@ -9,16 +9,6 @@ interface VoterCardPreviewProps {
 }
 
 export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
-  const [downloadDate, setDownloadDate] = useState('');
-
-  useEffect(() => {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    setDownloadDate(`${dd}-${mm}-${yyyy}`);
-  }, []);
-
   const photoUrl = formData.photoUrl || 'https://picsum.photos/seed/voter1/200/250';
   
   const getGenderText = () => {
@@ -108,7 +98,7 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         }
         #Layer13 img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* EPIC No (Front) - Changed to Black */
+        /* EPIC No (Front) - Black */
         #Layer5 {
           left: 45px;
           top: 194px;
@@ -226,19 +216,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         .addr-hindi { font-weight: 700; display: block; margin-bottom: 5px; }
         .addr-eng { font-weight: 500; display: block; }
 
-        /* Download Date (Back) */
-        #Layer11 {
-          left: 1113px;
-          top: 520px;
-          position: absolute;
-          width: 400px;
-          height: 42px;
-          z-index: 10;
-          font-size: 24px;
-          font-weight: 800;
-          color: #000;
-        }
-
         /* ERO Block (Back) */
         #Layer12 {
           left: 1399px;
@@ -331,10 +308,6 @@ export function VoterCardPreview({ formData }: VoterCardPreviewProps) {
         <div id="Layer9">
           <span className="addr-hindi">पता: {formData.addressLocal || '65, त्रिकोलिया-२, त्रिकोलिया, पयागपुर, बहराइच, उत्तर प्रदेश - 271871'}</span>
           <span className="addr-eng"><span className="font-bold">Address: </span>{formData.address || '65, TRIKOLIYA-2, TRIKOLIYA, PAYAGPUR, BAHRAICH, UTTAR PRADESH - 271871'}</span>
-        </div>
-
-        <div id="Layer11">
-          Download Date -: {downloadDate}
         </div>
 
         <div id="Layer12">
